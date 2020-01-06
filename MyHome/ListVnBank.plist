@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+ Property List.plist
+ HappyLuckySale
+ 
+ Created by Macbook on 9/6/19.
+ Copyright (c) 2019 HuCuBi. All rights reserved.
+ -->
+<plist version="1.0">
+    <array>
+        <dict>
+            <key>name</key>
+            <string>Á Châu</string>
+            <key>sub_name</key>
+            <string>ACB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Ngoại thương Việt Nam</string>
+            <key>sub_name</key>
+            <string>Vietcombank,VCB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Công Thương Việt Nam</string>
+            <key>sub_name</key>
+            <string>VietinBank, CTG</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Đầu tư và Phát triển Việt Nam</string>
+            <key>sub_name</key>
+            <string>BIDV, BID</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Tiên Phong</string>
+            <key>sub_name</key>
+            <string>TPBank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Ngân hàng Đông Á</string>
+            <key>sub_name</key>
+            <string>Đông Á Bank, DAB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Ngân hàng Đông Nam Á</string>
+            <key>sub_name</key>
+            <string>SeABank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Ngân hàng An Bình</string>
+            <key>sub_name</key>
+            <string>ABBANK</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Ngân hàng Bắc Á</string>
+            <key>sub_name</key>
+            <string>BacABank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Ngân hàng Bản Việt</string>
+            <key>sub_name</key>
+            <string>VietCapitalBank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Hàng Hải Việt Nam</string>
+            <key>sub_name</key>
+            <string>MSB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Kỹ Thương Việt Nam</string>
+            <key>sub_name</key>
+            <string>Techcombank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Kiên Long</string>
+            <key>sub_name</key>
+            <string>KienLongBank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Nam Á</string>
+            <key>sub_name</key>
+            <string>Nam A Bank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Quốc Dân</string>
+            <key>sub_name</key>
+            <string>National Citizen Bank, NCB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Việt Nam Thịnh Vượng</string>
+            <key>sub_name</key>
+            <string>VPBank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Phát triển nhà Thành phố Hồ Chí Minh</string>
+            <key>sub_name</key>
+            <string>HDBank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Phương Đông</string>
+            <key>sub_name</key>
+            <string>Orient Commercial Bank, OCB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Quân đội</string>
+            <key>sub_name</key>
+            <string>Military Bank, MB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Đại chúng</string>
+            <key>sub_name</key>
+            <string>PVcombank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Quốc tế</string>
+            <key>sub_name</key>
+            <string>VIBBank, VIB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Sài Gòn</string>
+            <key>sub_name</key>
+            <string>Sài Gòn, SCB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Sài Gòn Công Thương</string>
+            <key>sub_name</key>
+            <string>Saigonbank, SGB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Sài Gòn-Hà Nội</string>
+            <key>sub_name</key>
+            <string>SHBank, SHB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Sài Gòn Thương Tín</string>
+            <key>sub_name</key>
+            <string>Sacombank, STB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Việt Á</string>
+            <key>sub_name</key>
+            <string>VietABank, VAB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Bảo Việt</string>
+            <key>sub_name</key>
+            <string>BaoVietBank, BVB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Việt Nam Thương Tín</string>
+            <key>sub_name</key>
+            <string>VietBank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Xăng dầu Petrolimex</string>
+            <key>sub_name</key>
+            <string>Petrolimex Group Bank, PG Bank</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Xuất Nhập khẩu Việt Nam</string>
+            <key>sub_name</key>
+            <string>Eximbank, EIB</string>
+        </dict>
+        
+        <dict>
+            <key>name</key>
+            <string>Bưu điện Liên Việt</string>
+            <key>sub_name</key>
+            <string>LienVietPostBank, LPB</string>
+        </dict>
+    </array>
+</plist>
