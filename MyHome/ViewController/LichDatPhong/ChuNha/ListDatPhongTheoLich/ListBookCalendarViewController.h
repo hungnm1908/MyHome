@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ListBookCalendarViewController : UIViewController<UICollectionViewDelegate, UICollectionViewDataSource>
+@interface ListBookCalendarViewController : BaseViewController<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property NSDictionary *dictRoom;
 @property NSArray *arrayBookReport;

@@ -16,10 +16,83 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    [self.window setRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"tabbarController"]];
+    [self.window makeKeyAndVisible];
+    
+    BOOL isLogin = [[NSUserDefaults standardUserDefaults] boolForKey:kUserDefaultIsLogin];
+
+    if (isLogin) {
+        [self registerForRemoteNotifications];
+    }
+    
+    [Utils configKeyboard];
+    
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    
+    //Disable autolayout constraint error messages in debug console output in Xcode
+    [[NSUserDefaults standardUserDefaults] setValue:@(NO) forKey:@"_UIConstraintBasedLayoutLogUnsatisfiable"];
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
     return YES;
 }
 
+- (void)registerForRemoteNotifications {
+    if(@available(iOS 10.0, *)){
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        center.delegate = self;
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
+            if(!error){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[UIApplication sharedApplication] registerForRemoteNotifications];
+                });
+            }
+        }];
+    } else {
+        UIUserNotificationSettings* notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
+        
+        [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+    }
+}
+
+//Called when a notification is delivered to a foreground app.
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler API_AVAILABLE(ios(10.0)){
+    NSLog(@"User Info : %@",notification.request.content.userInfo);
+    completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
+}
+
+//Called to let your app know which action was selected by the user for a given notification.
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler  API_AVAILABLE(ios(10.0)){
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
+    NSLog(@"User Info : %@",response.notification.request.content.userInfo);
+    
+    NSDictionary *userInfo = response.notification.request.content.userInfo;
+    [Utils processNotification:userInfo];
+    
+    completionHandler();
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *token = [Utils hexadecimalStringFromData:deviceToken];
+    NSLog(@"deviceToken : %@\n%@", token,[deviceToken description]);
+    
+    [[NSUserDefaults standardUserDefaults] setObject:token forKey:kUserDefaultDeviceToken];
+
+    BOOL isLogin = [[NSUserDefaults standardUserDefaults] boolForKey:kUserDefaultIsLogin];
+    BOOL isSendToken = [[NSUserDefaults standardUserDefaults] boolForKey:kUserDefaultIsSendToken];
+    
+    if (isLogin && !isSendToken ) {
+        [Utils updateAppInfo];
+    }
+}
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
+    NSString *str = [NSString stringWithFormat: @"Error: %@", err];
+    NSLog(@"%@",str);
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

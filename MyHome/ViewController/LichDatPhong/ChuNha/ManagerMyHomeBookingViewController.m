@@ -25,6 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.textFieldDateStart.text = [Utils getDateFromDate:[Utils getFirstDayOfThisMonth]];
+    self.textFieldDateEnd.text = [Utils getDateFromDate:[Utils getLastDayOfMonth:5]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reciveNotifi:) name:@"kMyHome" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reciveNotifi:) name:kCreateRoomSuccess object:nil];
@@ -52,6 +54,7 @@
     CommonTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CommonTableViewController"];
     vc.arrayItem = arrayMyHomes;
     vc.typeView = kMyHome;
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:vc animated:YES completion:nil];
 }
 

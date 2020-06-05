@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *labelMoney;
 @property (weak, nonatomic) IBOutlet UILabel *labelStatus;
 @property (weak, nonatomic) IBOutlet UILabel *labelAdd;
+@property (weak, nonatomic) IBOutlet UIButton *btnUpdate;
+@property (weak, nonatomic) IBOutlet UIButton *btnBooking;
+@property (weak, nonatomic) IBOutlet UILabel *labelChuNha;
 
 @end
 

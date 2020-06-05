@@ -10,6 +10,8 @@
 #import "BookingSelectDayCollectionViewCell.h"
 #import "HeaderCollectionReusableView.h"
 #import "BookingDate.h"
+#import "BookingPaymentViewController.h"
+#import "BookCleanServiceViewController.h"
 
 @interface ListBookCalendarViewController ()
 
@@ -92,7 +94,9 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([userInfo[@"USER_TYPE"] intValue] == 1) {//là chủ nhà mới được khóa phòng
+    if ([userInfo[@"USER_TYPE"] intValue] == 1 ||
+        [userInfo[@"USER_TYPE"] intValue] == 0 ||
+        [userInfo[@"USER_TYPE"] intValue] == 4) {//là chủ nhà hoặc admin hoặc qldondep mới được khóa nhà
         NSDateComponents *comps = arrayMonth[indexPath.section];
         NSArray *arrayBookingDate = [listBookingDate objectForKey:[NSString stringWithFormat:@"Tháng %ld, %ld",(long)comps.month,(long)comps.year]];
         BookingDate *bkDate = arrayBookingDate[indexPath.row];
@@ -132,16 +136,16 @@
 
 - (BOOL)checkSelectDate : (NSDate *)dateSelect {
     BOOL isOK = YES;
-    if ([self _numberOfDaysFromDate:dateSelect toDate:[NSDate date]]/60/60 > 12) {
+    if ([self _numberOfDaysFromDate:dateSelect toDate:[NSDate date]]/60/60 > 24) {
         isOK = NO;
-        [Utils alertError:@"Ngày chọn không hợp lệ" content:@"Ngày khóa phòng phải sau 12h ngày hôm nay. Mời chọn lại" viewController:nil completion:^{
+        [Utils alertError:@"Ngày chọn không hợp lệ" content:@"Ngày khóa nhà phải sau ngày hôm nay. Mời chọn lại" viewController:nil completion:^{
             
         }];
     } else {
         if (isSelectStartDate) {
             if ([arrayDisableStartDate containsObject:dateSelect]) {
                 isOK = NO;
-                [Utils alertError:@"Ngày bắt đầu không hợp lệ" content:@"Ngày đã chọn trùng với lịch đặt phòng đã có. Mời chọn lại" viewController:nil completion:^{
+                [Utils alertError:@"Ngày bắt đầu không hợp lệ" content:@"Ngày đã chọn trùng với lịch đặt nhà đã có. Mời chọn lại" viewController:nil completion:^{
                     
                 }];
             }else{
@@ -155,12 +159,12 @@
                 }];
             }else if ([arrayDisableEndDate containsObject:dateSelect]) {
                 isOK = NO;
-                [Utils alertError:@"Ngày kết thúc không hợp lệ" content:@"Ngày đã chọn trùng với lịch đặt phòng đã tồn tại. Mời chọn lại" viewController:nil completion:^{
+                [Utils alertError:@"Ngày kết thúc không hợp lệ" content:@"Ngày đã chọn trùng với lịch đặt nhà đã tồn tại. Mời chọn lại" viewController:nil completion:^{
                     
                 }];
             }else if (![self checkEndDate:dateSelect]) {
                 isOK = NO;
-                [Utils alertError:@"Ngày kết thúc không hợp lệ" content:@"Trong nhưng ngày đã chọn, có ngày trùng với lịch đặt phòng đã tồn tại. Mời chọn lại" viewController:nil completion:^{
+                [Utils alertError:@"Ngày kết thúc không hợp lệ" content:@"Trong nhưng ngày đã chọn, có ngày trùng với lịch đặt nhà đã tồn tại. Mời chọn lại" viewController:nil completion:^{
                     
                 }];
             }else{
@@ -211,9 +215,9 @@
     
     NSString *strEndDateLock = [NSString stringWithFormat:@"%@ ngày %@",[Utils getDayName:endDateLock],[Utils getDateFromDate:endDateLock]];
     
-    NSString *content = [NSString stringWithFormat:@"Bạn muốn khóa phòng trong %@ ? (từ %@ đến %@)",strNumberLock,strStartDateLock,strEndDateLock];
+    NSString *content = [NSString stringWithFormat:@"Bạn muốn khóa nhà trong %@ ? (từ %@ đến %@)",strNumberLock,strStartDateLock,strEndDateLock];
     
-    [Utils alertWithCancelProcess:@"Xác nhận khóa phòng" content:content titleOK:@"Đồng ý" titleCancel:@"Hủy bỏ" viewController:nil completion:^{
+    [Utils alertWithCancelProcess:@"Xác nhận khóa nhà" content:content titleOK:@"Đồng ý" titleCancel:@"Hủy bỏ" viewController:nil completion:^{
         [self lookRoom];
     } cancel:^{
         self->arraySelectDate = [NSMutableArray array];
@@ -339,7 +343,7 @@
     for (NSDateComponents *comps in arrayMonth) {
         NSDate *firstDate = [calender dateFromComponents:comps];
         
-        int start = (int)[self _placeInWeekForDate:firstDate];
+        int start = [Utils placeInWeekForDate:firstDate];
         
         for (int i=0; i<42; i++) {
             if (i<start) {
@@ -400,11 +404,6 @@
     }
 }
 
-- (NSInteger)_placeInWeekForDate:(NSDate *)date {
-    NSDateComponents *compsFirstDayInMonth = [calender components:NSCalendarUnitWeekday fromDate:date];
-    return (compsFirstDayInMonth.weekday - 1 - calender.firstWeekday + 8) % 7;
-}
-
 - (BOOL)_dateIsToday:(NSDate *)date {
     return [self date:[NSDate date] isSameDayAsDate:date];
 }
@@ -441,10 +440,6 @@
 
 - (NSInteger)_numberOfDaysFromDate:(NSDate *)startDate toDate:(NSDate *)endDate {
     return [endDate timeIntervalSinceDate:startDate];
-//
-//    NSInteger startDay = [calender ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:startDate];
-//    NSInteger endDay = [calender ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:endDate];
-//    return endDay - startDay;
 }
 
 - (BOOL)checkArrayDisaleDateContainDate : (NSDate *)date {
@@ -481,7 +476,7 @@
         if ([dictData[@"STATUS"] intValue] == 1) {
             
         }else{
-            [Utils alertError:@"Thông báo" content:@"Bạn không được khóa phòng này" viewController:nil completion:^{
+            [Utils alertError:@"Thông báo" content:@"Bạn không được khóa nhà này" viewController:nil completion:^{
 
             }];
         }
@@ -496,9 +491,29 @@
     };
     
     [CallAPI callApiService:@"book/lockroom" dictParam:param isGetError:NO viewController:nil completeBlock:^(NSDictionary *dictData) {
-        [Utils alertError:@"Thông báo" content:dictData[@"RESULT"] viewController:nil completion:^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateBookingRoomStatus object:nil];
-        }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateBookingRoomStatus object:nil];
+        
+        NSDictionary *paramCleanRoom = @{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
+                                         @"GENLINK":self.dictRoom[@"GENLINK"],
+                                         @"CHECKIN":param[@"CHECKIN"],
+                                         @"CHECKOUT":param[@"CHECKOUT"],
+                                         @"ID_BOOKROOM":dictData[@"ID_BOOKROOM"],
+                                         @"NOTE":@""
+        };
+        
+        BookCleanServiceViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"BookCleanServiceViewController"];
+        vc.dictParam = paramCleanRoom;
+        [[self appDelegate].window.rootViewController.view addSubview:vc.view];
+        [[self appDelegate].window.rootViewController addChildViewController:vc];
+        
+//        if ( [self->userInfo[@"USER_TYPE"] intValue] == 0 || [self->userInfo[@"USER_TYPE"] intValue] == 4) {//Là admin hoặc qldondep thì đặt  dọn phòng luôn
+//
+//        }else{
+//
+//            [Utils alert:@"Thông báo" content:mes titleOK:@"Đồng ý" titleCancel:@"Để sau" viewController:nil completion:^{
+//                [self bookCleanRoom:paramCleanRoom];
+//            }];
+//        }
     }];
     
 }

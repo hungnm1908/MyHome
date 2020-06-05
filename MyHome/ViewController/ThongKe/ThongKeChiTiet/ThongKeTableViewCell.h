@@ -12,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ThongKeTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *labelNameRoom;
-@property (weak, nonatomic) IBOutlet UILabel *labelTime;
-@property (weak, nonatomic) IBOutlet UILabel *labelMoney;
+@property (weak, nonatomic) IBOutlet UILabel *labelDoanhThu;
+@property (weak, nonatomic) IBOutlet UILabel *labelChiPhi;
+@property (weak, nonatomic) IBOutlet UILabel *labelLoiNhuan;
 
 @end
 

@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.dictRoom = [Utils converDictRemoveNullValue:self.dictRoom];
     
     [self fillInfo];
 }
@@ -41,7 +42,7 @@
     NSDate *startDate = self.dictBookingDate[@"StartDate"];
     NSDate *endDate = self.dictBookingDate[@"EndDate"];
     self.labelNumberDay.text = [NSString stringWithFormat:@"%d ngày\n%d đêm",(int)[Utils _numberOfDaysFromDate:startDate toDate:endDate]+1,(int)[Utils _numberOfDaysFromDate:startDate toDate:endDate]];
-    self.labelNumberDay2.text = [NSString stringWithFormat:@"Giá phòng (%d đêm)",(int)[Utils _numberOfDaysFromDate:startDate toDate:endDate]];
+    self.labelNumberDay2.text = [NSString stringWithFormat:@"Giá nhà (%d đêm)",(int)[Utils _numberOfDaysFromDate:startDate toDate:endDate]];
     
     self.labelStartDate.text = [Utils getDateFromDate:startDate];
     self.labelStartWeekDay.text = [Utils getDayName:startDate];
@@ -71,21 +72,55 @@
     }
     
     int specialNumberDay = 0;
+    int normalDiscountNumberDay = 0;
+    int specialDiscountNumberDay = 0;
+//    int normalNumberDay = 0;
+    
     for (NSDate *date in arrayDate) {
         NSDateComponents *component = [[NSCalendar currentCalendar] components:NSCalendarUnitWeekday fromDate:date];
         if ([component weekday] == 6 || [component weekday] == 7) {
-            specialNumberDay++;
+            if ([Utils isTimePromotion:self.dictRoom :date]) {
+                specialDiscountNumberDay++;
+            }else{
+                specialNumberDay++;
+            }
+        }else{
+            if ([Utils isTimePromotion:self.dictRoom :date]) {
+                normalDiscountNumberDay++;
+            }else{
+//                normalNumberDay++;
+            }
         }
     }
-    int normalNumberDay = (int)[Utils _numberOfDaysFromDate:startDate toDate:endDate] - specialNumberDay;
-    long long priceRoomNomarl = normalNumberDay * [self.dictRoom[@"PRICE"] longLongValue];
-    long long priceRoomSpecial = specialNumberDay * [self.dictRoom[@"PRICE_SPECIAL"] longLongValue];
-    totalPriceRoom = priceRoomNomarl + priceRoomSpecial;
+    int normalNumberDay = (int)[Utils _numberOfDaysFromDate:startDate toDate:endDate] - specialNumberDay - normalDiscountNumberDay - specialDiscountNumberDay;
+    
+    
+    long long priceDiscountNomarl = normalDiscountNumberDay * [Utils getPriceValue:self.dictRoom];
+    long long priceDiscountSpecial = specialDiscountNumberDay * [Utils getPriceSpeacilValue:self.dictRoom];
+    long long priceRoomNomarl = normalNumberDay * ([self.dictRoom[@"PRICE"] longLongValue]);
+    long long priceRoomSpecial = specialNumberDay * ([self.dictRoom[@"PRICE_SPECIAL"] longLongValue]);
+    totalPriceRoom = priceRoomNomarl + priceRoomSpecial + priceDiscountNomarl + priceDiscountSpecial;
     
     self.labelPriceNomarDay.text = [NSString stringWithFormat:@"%@ vnđ x %d",[Utils strCurrency:self.dictRoom[@"PRICE"]],normalNumberDay];
     self.labelPriceSpeacialDay.text = [NSString stringWithFormat:@"%@ vnđ x %d",[Utils strCurrency:self.dictRoom[@"PRICE_SPECIAL"]],specialNumberDay];
     self.labelTotalPriceRoom.text = [NSString stringWithFormat:@"%@ VNĐ",[Utils strCurrency:[NSString stringWithFormat:@"%lld",totalPriceRoom]]];
     
+    self.labelNormalDiscountPrice.text = [NSString stringWithFormat:@"%@ vnđ x %d",[Utils getPrice:self.dictRoom],normalDiscountNumberDay];
+    self.labelSpeacilDiscountPrice.text = [NSString stringWithFormat:@"%@ vnđ x %d",[Utils getPriceSpeacil:self.dictRoom],specialDiscountNumberDay];
+    
+    if (normalDiscountNumberDay > 0) {
+        self.viewNormalDiscount.hidden = NO;
+    }else{
+        self.viewNormalDiscount.hidden = YES;
+        self.heightViewNormalDiscount.constant = 0;
+    }
+    
+    if (specialDiscountNumberDay > 0) {
+        self.viewSpeacilDiscount.hidden = NO;
+    }else{
+        self.viewSpeacilDiscount.hidden = YES;
+        self.heightViewSpeacilDiscount.constant = 0;
+    }
     
     int soKhachToiDa = [self.dictRoom[@"MAX_GUEST"] intValue];
     if (self.dictRoom[@"MAX_GUEST_EXIST"]) {
@@ -157,7 +192,7 @@
 
 - (IBAction)bookRoom:(id)sender {
     if ([self checkEnoughInfo]) {
-        [Utils alert:@"Xác nhận" content:@"Bạn đồng ý đặt phòng ?" titleOK:@"Đồng ý" titleCancel:@"Hủy bỏ" viewController:nil completion:^{
+        [Utils alert:@"Xác nhận" content:@"Bạn đồng ý đặt nhà ?" titleOK:@"Đồng ý" titleCancel:@"Hủy bỏ" viewController:nil completion:^{
             [self book];
         }];
     }
@@ -185,9 +220,10 @@
                             };
     
     [CallAPI callApiService:@"book/booking" dictParam:param isGetError:NO viewController:nil completeBlock:^(NSDictionary *dictData) {
-        [Utils alertError:@"Thông báo" content:@"Bạn đã đặt phòng thành công. Vui lòng thanh toán bằng cách chuyển khoản theo các thông tin sau." viewController:nil completion:^{
+        [Utils alertError:@"Thông báo" content:@"Bạn đã đặt nhà thành công. Vui lòng thanh toán bằng cách chuyển khoản theo các thông tin sau." viewController:nil completion:^{
             BookingPaymentViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"BookingPaymentViewController"];
-            vc.totalPrice = self.labelTotalPrice.text;
+            vc.totalPrice = self->totalPrice;
+            vc.content = dictData[@"CONTENT"];
             [self.navigationController pushViewController:vc animated:YES];
         }];
     }];

@@ -13,9 +13,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BookingPaymentViewController : BaseViewController
 
-@property NSString *totalPrice;
+@property long long totalPrice;
+@property NSString *content;
+@property BOOL isPaymentClean;
+@property NSDictionary *dictBookClean;
 
 @property (weak, nonatomic) IBOutlet UILabel *labelTotalPrice;
+@property (weak, nonatomic) IBOutlet UILabel *labelContent;
+@property (weak, nonatomic) IBOutlet UILabel *labelNote;
+@property (weak, nonatomic) IBOutlet UILabel *labelSTK;
+@property (weak, nonatomic) IBOutlet UIView *viewChangeKindOfPay;
 
 @end
 

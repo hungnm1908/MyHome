@@ -46,6 +46,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *labelSubPrice;
 @property (weak, nonatomic) IBOutlet UILabel *labelNumberDay2;
 
+@property (weak, nonatomic) IBOutlet UIView *viewNormalDiscount;
+@property (weak, nonatomic) IBOutlet UILabel *labelNormalDiscountPrice;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightViewNormalDiscount;
+
+@property (weak, nonatomic) IBOutlet UIView *viewSpeacilDiscount;
+@property (weak, nonatomic) IBOutlet UILabel *labelSpeacilDiscountPrice;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightViewSpeacilDiscount;
+
 @end
 
 NS_ASSUME_NONNULL_END

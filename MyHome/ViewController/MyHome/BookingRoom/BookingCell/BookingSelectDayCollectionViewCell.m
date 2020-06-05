@@ -14,6 +14,12 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.contentView.leftAnchor constraintEqualToAnchor:self.contentView.superview.leftAnchor constant:0].active = YES;
+    [self.contentView.rightAnchor constraintEqualToAnchor:self.contentView.superview.rightAnchor constant:0].active = YES;
+    [self.contentView.topAnchor constraintEqualToAnchor:self.contentView.superview.topAnchor constant:0].active = YES;
+    [self.contentView.bottomAnchor constraintEqualToAnchor:self.contentView.superview.bottomAnchor constant:0].active = YES;
 }
 
 - (void)layoutSubviews {

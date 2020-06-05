@@ -12,7 +12,13 @@
 typedef enum : NSUInteger {
     kProvince = 0,
     kDistrict = 1,
-    kSchool = 2,
+    kUserType = 2,
+    kMyHome = 3,
+    kVnBank = 4,
+    kBuilding = 5,
+    kBanner = 6,
+    kJourney = 7,
+    kRentCar = 8
 } TypeView;
 
 @interface CommonTableViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource>
@@ -22,8 +28,8 @@ typedef enum : NSUInteger {
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldSearch;
-@property (weak, nonatomic) IBOutlet UIView *viewSearch;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewSearchHeight;
+@property (weak, nonatomic) IBOutlet UILabel *labelTitle;
+
 
 
 @end

@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
+#import "ListImagesDetailCollectionViewCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ListImagesDetailViewController : UIViewController
+@interface ListImagesDetailViewController : BaseViewController<UICollectionViewDelegate, UICollectionViewDataSource>
+
+@property NSArray *arrayImages;
+
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 

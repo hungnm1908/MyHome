@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SettingTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *imageItem;
+@property (weak, nonatomic) IBOutlet UILabel *labelTitle;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -17,9 +17,11 @@
 #import "MyCustomView.h"
 #import "CallAPI.h"
 
-@interface BaseViewController : UIViewController
+@interface BaseViewController : UIViewController<UIGestureRecognizerDelegate>
 
 @property UIRefreshControl *refreshControl;
 @property UIButton *buttonLeft;
+
+- (AppDelegate *) appDelegate;
 
 @end

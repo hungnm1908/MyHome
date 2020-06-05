@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController<UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *textFieldUsername;
+@property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *textFieldPassword;
+@property (weak, nonatomic) IBOutlet UIButton *btnShowPass;
+@property (weak, nonatomic) IBOutlet UIView *viewFingerPrintLogin;
+
 
 @end

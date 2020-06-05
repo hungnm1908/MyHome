@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIView *viewDisableFirstDate;
 @property (weak, nonatomic) IBOutlet UIView *viewDisableEndDate;
 
+@property (weak, nonatomic) IBOutlet UIView *viewCurrentPrice;
+@property (weak, nonatomic) IBOutlet UILabel *labelCurrentPrice;
+
 @end
 
 NS_ASSUME_NONNULL_END

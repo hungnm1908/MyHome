@@ -7,10 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AdminManageBookingViewController : UIViewController
+@interface AdminManageBookingViewController : UIViewController<UIScrollViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UIView *viewLichDatPhong;
+@property (weak, nonatomic) IBOutlet UIView *viewLichDonPhong;
+@property (weak, nonatomic) IBOutlet UIView *viewCalendar;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
 
 @end
 

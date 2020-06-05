@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AdminCalendarBookingRoomViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UILabel *labelHomeName;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldStartDate;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldEndDate;
+@property (weak, nonatomic) IBOutlet UIView *viewCalendar;
 
 @end
 

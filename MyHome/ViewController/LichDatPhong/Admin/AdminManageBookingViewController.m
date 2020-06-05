@@ -7,26 +7,58 @@
 //
 
 #import "AdminManageBookingViewController.h"
+#import "AdminListBookingRoomViewController.h"
+#import "AdminListBookingCleanRoomViewController.h"
+#import "AdminCalendarBookingRoomViewController.h"
 
 @interface AdminManageBookingViewController ()
 
 @end
 
-@implementation AdminManageBookingViewController
+@implementation AdminManageBookingViewController {
+    BOOL isSettup;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)viewDidAppear:(BOOL)animated {
+    if (!isSettup) {
+        isSettup = YES;
+        
+        [self settupView];
+    }
 }
-*/
+
+- (void)settupView {
+    AdminListBookingRoomViewController *vcBookRoom = [self.storyboard instantiateViewControllerWithIdentifier:@"AdminListBookingRoomViewController"];
+    vcBookRoom.view.frame = CGRectMake(0, 0, self.viewLichDatPhong.frame.size.width, self.viewLichDatPhong.frame.size.height);
+    [self.viewLichDatPhong addSubview:vcBookRoom.view];
+    [self addChildViewController:vcBookRoom];
+    
+    AdminListBookingCleanRoomViewController *vcBookClean = [self.storyboard instantiateViewControllerWithIdentifier:@"AdminListBookingCleanRoomViewController"];
+    vcBookClean.view.frame = CGRectMake(0, 0, self.viewLichDonPhong.frame.size.width, self.viewLichDonPhong.frame.size.height);
+    [self.viewLichDonPhong addSubview:vcBookClean.view];
+    [self addChildViewController:vcBookClean];
+    
+    AdminCalendarBookingRoomViewController *vcBookCalendar = [self.storyboard instantiateViewControllerWithIdentifier:@"AdminCalendarBookingRoomViewController"];
+    vcBookCalendar.view.frame = CGRectMake(0, 0, self.viewCalendar.frame.size.width, self.viewCalendar.frame.size.height);
+    [self.viewCalendar addSubview:vcBookCalendar.view];
+    [self addChildViewController:vcBookCalendar];
+}
+
+- (IBAction)changeViewReport:(UISegmentedControl *)sender {
+    CGPoint point = CGPointMake(self.scrollView.bounds.size.width*sender.selectedSegmentIndex, 0);
+    [self.scrollView setContentOffset:point animated:YES];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    int currentPage = (int)scrollView.contentOffset.x/self.scrollView.bounds.size.width;
+    self.segmentedControl.selectedSegmentIndex = currentPage;
+}
 
 @end

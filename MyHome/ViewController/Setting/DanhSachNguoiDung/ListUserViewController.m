@@ -8,6 +8,8 @@
 
 #import "ListUserViewController.h"
 #import "ListUserTableViewCell.h"
+#import "InformationViewController.h"
+#import "CreateUserViewController.h"
 
 @interface ListUserViewController ()
 
@@ -22,16 +24,24 @@
     
     int page;
     BOOL isLoadMore;
+    
+    ManaDropDownMenu *dropDownMKH;
+    ManaDropDownMenu *dropDownBooking;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if (self.isAssignCheckIn) {
+        self.navigationItem.title = @"Chia đơn dọn dẹp";
+        self.btnAddUser.enabled = NO;
+        self.btnAddUser.tintColor = UIColor.clearColor;
+    }
 
     [self.tableView addSubview:self.refreshControl];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     if (!isSettup) {
         arrayUser = [NSMutableArray array];
         isSettup = YES;
@@ -42,23 +52,34 @@
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [dropDownMKH animateForClose];
+    [dropDownBooking animateForClose];
+}
+
 - (void)settupViewSelect {
-    NSArray *arrayStatusBilling = @[@"- Tất cả -",@"Admin",@"Chủ nhà",@"Dịch vụ",@"Supper Gold"];
-    
-    CGRect frameStatusBilling = self.viewUserType.frame;
-    frameStatusBilling.origin.x = frameStatusBilling.origin.x + 2;
-    frameStatusBilling.origin.y = frameStatusBilling.origin.y + 3;
-    frameStatusBilling.size.width = frameStatusBilling.size.width - 4;
-    frameStatusBilling.size.height = frameStatusBilling.size.height - 6;
-    
-    ManaDropDownMenu *dropDownMKH = [[ManaDropDownMenu alloc] initWithFrame:frameStatusBilling title:arrayStatusBilling[0]];
-    dropDownMKH.delegate = self;
-    dropDownMKH.numberOfRows = arrayStatusBilling.count;
-    dropDownMKH.textOfRows = arrayStatusBilling;
-    dropDownMKH.seperatorColor = RGB_COLOR(75, 109, 179);
-    dropDownMKH.inactiveColor = RGB_COLOR(75, 109, 179);
-    dropDownMKH.tag = 0;
-    [self.view addSubview:dropDownMKH];
+    if (self.isAssignCheckIn) {
+        self.labelCheckIn.hidden = NO;
+         userType = @"5";
+    }else{
+        self.labelCheckIn.hidden = YES;
+        NSArray *arrayStatusBilling = @[@"- Tất cả -",@"Admin",@"Chủ nhà",@"Cộng tác viên",@"Supper Gold",@"Quản lý dọn dẹp",@"Check-in Check-out"];
+        
+        CGRect frameStatusBilling = self.viewUserType.frame;
+        frameStatusBilling.origin.x = frameStatusBilling.origin.x + 2;
+        frameStatusBilling.origin.y = frameStatusBilling.origin.y + 3;
+        frameStatusBilling.size.width = frameStatusBilling.size.width - 4;
+        frameStatusBilling.size.height = frameStatusBilling.size.height - 6;
+        
+        dropDownMKH = [[ManaDropDownMenu alloc] initWithFrame:frameStatusBilling title:arrayStatusBilling[0]];
+        dropDownMKH.delegate = self;
+        dropDownMKH.numberOfRows = arrayStatusBilling.count;
+        dropDownMKH.textOfRows = arrayStatusBilling;
+        dropDownMKH.seperatorColor = RGB_COLOR(75, 109, 179);
+        dropDownMKH.inactiveColor = RGB_COLOR(75, 109, 179);
+        dropDownMKH.tag = 0;
+        [self.view addSubview:dropDownMKH];
+    }
     
     NSArray *arrayStatusBooking = @[@"- Tất cả -",@"Đang bị khóa",@"Đã kích hoạt"];
     
@@ -68,7 +89,7 @@
     frameStatusBooking.size.width = frameStatusBooking.size.width - 4;
     frameStatusBooking.size.height = frameStatusBooking.size.height - 6;
     
-    ManaDropDownMenu *dropDownBooking = [[ManaDropDownMenu alloc] initWithFrame:frameStatusBooking title:arrayStatusBooking[0]];
+    dropDownBooking = [[ManaDropDownMenu alloc] initWithFrame:frameStatusBooking title:arrayStatusBooking[0]];
     dropDownBooking.delegate = self;
     dropDownBooking.numberOfRows = arrayStatusBooking.count;
     dropDownBooking.textOfRows = arrayStatusBooking;
@@ -94,7 +115,7 @@
             userStatus = @"";
         }
     }
-    [self getListUser];
+    [self handleRefresh:nil];
 }
 
 - (IBAction)search:(id)sender {
@@ -152,7 +173,17 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [dropDownMKH animateForClose];
+    [dropDownBooking animateForClose];
+    NSDictionary *dictCustomer = [Utils converDictRemoveNullValue:arrayUser[indexPath.row]];
     
+    if (self.isAssignCheckIn) {
+        [Utils alert:@"Thông báo" content:[NSString stringWithFormat:@"Bạn chắc chắn muốn chia đơn dọn dẹp cho nhân viên %@",dictCustomer[@"FULL_NAME"]] titleOK:@"Đồng ý" titleCancel:@"Hủy bỏ" viewController:self completion:^{
+            [self chiaDonDonDep:dictCustomer];
+        }];
+    }else{
+        [self performSelector:@selector(showInfoUser:) withObject:dictCustomer afterDelay:0.5];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -181,7 +212,7 @@
             
         case 2:
         {
-            user = @"Dịch vụ";
+            user = @"Cộng tác viên";
         }
             break;
             
@@ -191,11 +222,36 @@
         }
             break;
             
+        case 4:
+        {
+            user = @"Quản lý dọn dẹp";
+        }
+            break;
+            
+        case 5:
+        {
+            user = @"Check-in Check-out";
+        }
+            break;
+            
         default:
             break;
     }
     
     return user;
+}
+
+- (IBAction)createNewUser:(id)sender {
+    CreateUserViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CreateUserViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showInfoUser : (NSDictionary *)dictCustomer {
+    InformationViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"InformationViewController"];
+    vc.userID = dictCustomer[@"USERID"];
+    vc.isEdit = YES;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark CallAPI
@@ -210,14 +266,29 @@
                             @"STATE":userStatus,
                             @"ADDRESS":@"",
                             @"PAGE":[NSString stringWithFormat:@"%d",page],
-                            @"NUMOFPAGE":@"10"
+                            @"NUMOFPAGE":@"50"
                             };
     
     [CallAPI callApiService:@"user/get_listuser" dictParam:param isGetError:NO viewController:nil completeBlock:^(NSDictionary *dictData) {
         NSArray *arrayResult = dictData[@"INFO"];
         [self->arrayUser addObjectsFromArray:arrayResult];
-        self->isLoadMore = arrayResult.count>=10;
+        self->isLoadMore = arrayResult.count>=50;
+        self.labelTotalUser.text = [NSString stringWithFormat:@"Tổng số người dùng: %lu",(unsigned long)self->arrayUser.count];
         [self.tableView reloadData];
+    }];
+}
+
+- (void)chiaDonDonDep : (NSDictionary *)dictUser {
+    NSDictionary *param = @{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
+                            @"CONTENT":self.dictBookService[@"CONTENT"],
+                            @"USER_CHECKIN":dictUser[@"USERID"]
+                            };
+    
+    [CallAPI callApiService:@"book/split_book_services" dictParam:param isGetError:NO viewController:nil completeBlock:^(NSDictionary *dictData) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateChiaDonChoCheckIn object:nil];
+        [Utils alertError:@"Thông báo" content:@"Chia đơn dọn dẹp thành công" viewController:self completion:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
     }];
 }
 

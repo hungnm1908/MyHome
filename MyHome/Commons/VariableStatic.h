@@ -17,8 +17,10 @@
 
 - (void)cleanData;
 
-@property NSArray *arrayDistrict;
+@property NSArray *arrayProvince;
+@property NSArray *arrayUserType;
 @property BOOL isBooking;
 @property BOOL warningTogether;
+@property NSArray *arrayBanner;
 
 @end

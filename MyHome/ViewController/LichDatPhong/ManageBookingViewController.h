@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseTabbarViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ManageBookingViewController : UIViewController
+@interface ManageBookingViewController : BaseTabbarViewController
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnBookingRoomChuNha;
 
 @end
 

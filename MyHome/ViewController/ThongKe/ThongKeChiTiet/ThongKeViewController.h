@@ -14,17 +14,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ThongKeViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, CKCalendarDelegate>
+@interface ThongKeViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource, CKCalendarDelegate>
+
+@property NSString *month;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UILabel *labelTotal;
 @property (weak, nonatomic) IBOutlet UIView *viewSearch;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightViewSearch;
 
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *textFieldNameHome;
-@property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *textFieldNameBooker;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldFromDate;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldToDate;
+
+@property (weak, nonatomic) IBOutlet UILabel *labelDoanhThuTong;
+@property (weak, nonatomic) IBOutlet UILabel *labelChiPhiTong;
+@property (weak, nonatomic) IBOutlet UILabel *labelLoiNhuan;
 
 @end
 

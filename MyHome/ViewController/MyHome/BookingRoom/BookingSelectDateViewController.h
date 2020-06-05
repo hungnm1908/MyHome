@@ -7,9 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GLCalendarView.h"
-#import "GLDateUtils.h"
-#import "GLCalendarDayCell.h"
 #import "BaseViewController.h"
 #import "BookingSelectDayCollectionViewCell.h"
 #import "HeaderCollectionReusableView.h"
@@ -20,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property NSDictionary *dictRoom;
 
+@property BOOL isLookRoom;
+
+@property (weak, nonatomic) IBOutlet UILabel *labelStart;
+@property (weak, nonatomic) IBOutlet UILabel *labelEnd;
+
 @property (weak, nonatomic) IBOutlet UILabel *labelStartDate;
 @property (weak, nonatomic) IBOutlet UILabel *labelStartDay;
 @property (weak, nonatomic) IBOutlet UILabel *labelNumberDate;
@@ -29,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIView *viewCalendar;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
+@property (weak, nonatomic) IBOutlet MyButton *btnContinue;
 
 
 @end

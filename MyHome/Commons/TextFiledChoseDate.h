@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JVFloatLabeledTextField.h"
+
 IB_DESIGNABLE
 
-@interface TextFiledChoseDate : UITextField<UITextFieldDelegate>
+@interface TextFiledChoseDate : JVFloatLabeledTextField<UITextFieldDelegate>
 
 @property (nonatomic) IBInspectable CGFloat numberDayAgo;
 

@@ -7,10 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
+#import <InfinitePagingView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ImageDetailViewController : UIViewController
+@interface ImageDetailViewController : BaseViewController<InfinitePagingViewDelegate>
+
+@property NSArray *arrayImages;
+@property int index;
+
+@property (weak, nonatomic) IBOutlet UILabel *labelIndex;
+@property (weak, nonatomic) IBOutlet UIView *viewSlidePhoto;
 
 @end
 

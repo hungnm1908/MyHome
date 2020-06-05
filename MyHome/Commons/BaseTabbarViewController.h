@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Utils.h"
+#import "AppDelegate.h"
+#import "JVFloatLabeledTextField.h"
+#import "TextFiledChoseDate.h"
+#import "VariableStatic.h"
+#import "MyButton.h"
+#import "MyImageView.h"
+#import "MyCustomView.h"
+#import "CallAPI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BaseTabbarViewController : UIViewController
+@interface BaseTabbarViewController : UIViewController<UIGestureRecognizerDelegate>
+
+@property UIButton *buttonThongBao;
 
 @end
 

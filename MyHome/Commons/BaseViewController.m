@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationController.navigationBar.barTintColor = RGB_COLOR(74, 54, 91);
+    self.navigationController.navigationBar.barTintColor = RGB_COLOR(75, 109, 179);
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
     [self.navigationController.navigationBar setTranslucent:NO];
@@ -28,6 +28,7 @@
     [_buttonLeft addTarget:self action:@selector(goback) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_buttonLeft];
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = RGB_COLOR(240, 240, 240);
@@ -47,5 +48,10 @@
 - (void)handleRefresh : (id)sender{
     
 }
+
+- (AppDelegate *) appDelegate {
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
 
 @end

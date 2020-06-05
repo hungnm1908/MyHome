@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
+#import <WebKit/WebKit.h>
 
-@interface CommonWebViewController : BaseViewController<UIWebViewDelegate>
+@interface CommonWebViewController : BaseViewController<UIScrollViewDelegate,WKNavigationDelegate>
 
-@property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property NSString *stringUrl;
+@property NSString *titleView;
+@property NSString *stringContent;
+
+@property (weak, nonatomic) IBOutlet UIView *viewWeb;
+@property (weak, nonatomic) IBOutlet UILabel *labelTitle;
+
 
 @end

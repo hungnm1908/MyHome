@@ -16,8 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *labelNameGuest;
 @property (weak, nonatomic) IBOutlet UILabel *labelDateBook;
 @property (weak, nonatomic) IBOutlet UILabel *labelTimeBook;
-@property (weak, nonatomic) IBOutlet UILabel *labelStatusRoom;
-@property (weak, nonatomic) IBOutlet UILabel *labelStatusBilling;
+@property (weak, nonatomic) IBOutlet UILabel *labelTrangThaiNha;
+@property (weak, nonatomic) IBOutlet UILabel *labelTrangThaiDichVu;
+@property (weak, nonatomic) IBOutlet UILabel *labelTrangThaiThanhToanDichVu;
 @property (weak, nonatomic) IBOutlet UIButton *btnStatus;
 @property (weak, nonatomic) IBOutlet UIButton *btnCleanRoom;
 @property (weak, nonatomic) IBOutlet UIImageView *iconLock;

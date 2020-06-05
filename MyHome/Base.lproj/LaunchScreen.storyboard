@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,15 +13,60 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rht-Dn-8fE">
+                                <rect key="frame" x="38" y="187" width="244.5" height="70"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_white" translatesAutoresizingMaskIntoConstraints="NO" id="yVX-q0-c4g">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="MNf-rA-uKg"/>
+                                            <constraint firstAttribute="width" secondItem="yVX-q0-c4g" secondAttribute="height" multiplier="1:1" id="q94-3V-AWA"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MY HOME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZo-72-em8">
+                                        <rect key="frame" x="86" y="0.0" width="158.5" height="70"/>
+                                        <fontDescription key="fontDescription" name="HoeflerText-Regular" family="Hoefler Text" pointSize="30"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="yVX-q0-c4g" secondAttribute="bottom" id="3Bj-bl-mjz"/>
+                                    <constraint firstAttribute="bottom" secondItem="eZo-72-em8" secondAttribute="bottom" id="Ebd-LV-6hv"/>
+                                    <constraint firstItem="eZo-72-em8" firstAttribute="top" secondItem="rht-Dn-8fE" secondAttribute="top" id="NXy-bq-LDs"/>
+                                    <constraint firstItem="eZo-72-em8" firstAttribute="leading" secondItem="yVX-q0-c4g" secondAttribute="trailing" constant="16" id="i8v-qJ-joG"/>
+                                    <constraint firstItem="yVX-q0-c4g" firstAttribute="top" secondItem="rht-Dn-8fE" secondAttribute="top" id="ooP-OU-wq1"/>
+                                    <constraint firstItem="yVX-q0-c4g" firstAttribute="leading" secondItem="rht-Dn-8fE" secondAttribute="leading" id="qFK-J2-abQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="eZo-72-em8" secondAttribute="trailing" id="tMu-mr-rn3"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Giải pháp kết nối du lịch Việt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knN-X7-Y7W">
+                                <rect key="frame" x="23" y="273" width="274" height="22"/>
+                                <fontDescription key="fontDescription" name="HoeflerText-Regular" family="Hoefler Text" pointSize="22"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.29411764705882354" green="0.42745098039215684" blue="0.70196078431372544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="rht-Dn-8fE" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="SYd-lr-8sY"/>
+                            <constraint firstItem="knN-X7-Y7W" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="VQu-3R-ORo"/>
+                            <constraint firstItem="knN-X7-Y7W" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Vbt-hy-JdU"/>
+                            <constraint firstItem="knN-X7-Y7W" firstAttribute="top" secondItem="rht-Dn-8fE" secondAttribute="bottom" constant="16" id="ygx-lC-OA8"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="50.625" y="373.94366197183098"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logo_white" width="100" height="100"/>
+    </resources>
 </document>

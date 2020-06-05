@@ -62,6 +62,23 @@
     }
 }
 
+- (NSString *)getTextCurrentPrice {
+    if (self.date) {
+        if (self.isDisable) {
+            return @"";
+        }else{
+            NSDateComponents *component = [[NSCalendar currentCalendar] components:NSCalendarUnitWeekday fromDate:self.date];
+            if ([component weekday] == 6 || [component weekday] == 7) {
+                return self.priceSpecialCurrent;
+            }else{
+                return self.priceNormalCurrent;
+            }
+        }
+    }else{
+        return @"";
+    }
+}
+
 - (UIColor *)getTextPriceColor {
     if (self.isSelect) {
         return [UIColor whiteColor];
@@ -87,7 +104,29 @@
     if (self.isToday) {
         return RGB_COLOR(84, 125, 190);
     }else{
-        return [UIColor clearColor];
+        if (self.isDiscountDate) {
+            return [UIColor clearColor];
+        }else{
+            return [UIColor clearColor];
+        }
+    }
+}
+
+- (UIColor *)getDisableStartViewColor {
+    if (self.isBillingFirstDate) {
+        return [UIColor colorWithRed:84.0/255.0f green:125.0/255.0f blue:190.0/255.0f alpha:0.8];
+//        return [UIColor redColor];
+    }else{
+        return RGB_COLOR(230, 230, 230);
+    }
+}
+
+- (UIColor *)getDisableEndViewColor {
+    if (self.isBillingEndDate) {
+        return [UIColor colorWithRed:84.0/255.0f green:125.0/255.0f blue:190.0/255.0f alpha:0.8];
+//        return [UIColor greenColor];
+    }else{
+        return RGB_COLOR(230, 230, 230);
     }
 }
 

@@ -27,19 +27,55 @@
             
         case kProvince:
         {
-            self.navigationItem.title = @"Chọn Tỉnh/TP";
+            self.labelTitle.text = @"Chọn Tỉnh/TP";
         }
             break;
             
         case kDistrict:
         {
-            self.navigationItem.title = @"Chọn Quận/Huyện";
+            self.labelTitle.text = @"Chọn Quận/Huyện";
         }
             break;
             
-        case kSchool:
+        case kUserType:
         {
-            self.navigationItem.title = @"Chọn Trường";
+            self.labelTitle.text = @"Chọn loại người dùng";
+        }
+            break;
+            
+        case kMyHome:
+        {
+            self.labelTitle.text = @"Chọn nhà nghỉ - Homestay";
+        }
+            break;
+            
+        case kVnBank:
+        {
+            self.labelTitle.text = @"Chọn Ngân hàng";
+        }
+            break;
+            
+        case kBuilding:
+        {
+            self.labelTitle.text = @"Chọn toà nhà";
+        }
+            break;
+            
+        case kBanner:
+        {
+            self.labelTitle.text = @"Chọn Tỉnh/TP";
+        }
+            break;
+            
+        case kJourney:
+        {
+            self.labelTitle.text = @"Chọn hành trình";
+        }
+            break;
+            
+        case kRentCar:
+        {
+            self.labelTitle.text = @"Chọn xe thuê";
         }
             break;
             
@@ -75,7 +111,7 @@
         switch (self.typeView) {
             case kProvince:
             {
-                cell.textLabel.text = dict[@"PROVINCE_NAME"];
+                cell.textLabel.text = dict[@"NAME"];
             }
                 break;
                 
@@ -85,12 +121,47 @@
             }
                 break;
                 
-            case kSchool:
+            case kUserType:
             {
-                cell.textLabel.text = dict[@"SCHOOL_NAME"];
+                cell.textLabel.text = dict[@"TYPE_NAME"];
             }
                 break;
                 
+            case kMyHome:
+            {
+                cell.textLabel.text = dict[@"NAME"];
+            }
+                break;
+                
+            case kVnBank:
+            {
+                cell.textLabel.text = [NSString stringWithFormat:@"%@\n(%@)",dict[@"name"],dict[@"sub_name"]];
+            }
+                break;
+                
+            case kBuilding:
+            {
+                cell.textLabel.text = dict[@"LOCATION_NAME"];
+            }
+                break;
+                
+            case kBanner:
+            {
+                cell.textLabel.text = dict[@"CITY_NAME"];
+            }
+                break;
+                
+            case kJourney:
+            {
+                cell.textLabel.text = dict[@"name"];
+            }
+                break;
+                
+            case kRentCar:
+            {
+                cell.textLabel.text = dict[@"name"];
+            }
+                break;
                 
             default:
                 break;
@@ -125,19 +196,53 @@
         }
             break;
             
-        case kSchool:
+        case kUserType:
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"kSchool" object:dict];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kUserType" object:dict];
         }
             break;
             
+        case kMyHome:
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kMyHome" object:dict];
+        }
+            break;
+            
+        case kVnBank:
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kVnBank" object:dict];
+        }
+            break;
+            
+        case kBuilding:
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kBuilding" object:dict];
+        }
+            break;
+            
+        case kBanner:
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kBanner" object:dict];
+        }
+            break;
+            
+        case kJourney:
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kJourney" object:dict];
+        }
+            break;
+            
+        case kRentCar:
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kRentCar" object:dict];
+        }
+            break;
             
         default:
             break;
     }
     
-    [self.navigationController popViewControllerAnimated:YES];
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -154,12 +259,13 @@
         isSearch = YES;
         NSString *nameArea = @"";
         NSString *strSearch = [self.textFieldSearch.text uppercaseString];
+        strSearch = [Utils changeVietNamese:strSearch];
         
         for (NSDictionary *dict in self.arrayItem) {
             switch (self.typeView) {
                 case kProvince:
                 {
-                    nameArea = dict[@"PROVINCE_NAME"];
+                    nameArea = dict[@"NAME"];
                     break;
                 }
                     
@@ -169,15 +275,49 @@
                     break;
                 }
                     
-                case kSchool:
+                case kUserType:
                 {
-                    nameArea = dict[@"SCHOOL_NAME"];
+                    nameArea = dict[@"TYPE_NAME"];
                     break;
                 }
                     
+                case kMyHome:
+                {
+                    nameArea = dict[@"NAME"];
+                    break;
+                }
+                    
+                case kVnBank:
+                {
+                    nameArea = [NSString stringWithFormat:@"%@\n(%@)",dict[@"name"],dict[@"sub_name"]];
+                    break;
+                }
+                    
+                case kBuilding:
+                {
+                    nameArea = dict[@"LOCATION_NAME"];
+                    break;
+                }
+                    
+                case kBanner:
+                {
+                    nameArea = dict[@"CITY_NAME"];
+                    break;
+                }
+                    break;
+                    
+                case kJourney: {
+                    nameArea = dict[@"name"];
+                    break;
+                }
+                case kRentCar: {
+                    nameArea = dict[@"name"];
+                    break;
+                }
             }
             
             nameArea = [nameArea uppercaseString];
+            nameArea = [Utils changeVietNamese:nameArea];
             if ([nameArea containsString:strSearch]) {
                 [arraySearch addObject:dict];
             }
@@ -186,6 +326,10 @@
         isSearch = NO;
     }
     [self.tableView reloadData];
+}
+
+- (IBAction)backToHome:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

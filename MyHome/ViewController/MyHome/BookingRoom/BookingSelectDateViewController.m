@@ -40,23 +40,34 @@
     calender = [NSCalendar autoupdatingCurrentCalendar];
     [calender setTimeZone:[NSTimeZone systemTimeZone]];
     
-//    [self getReportRoom:self.dictRoom[@"GENLINK"]];
+    if (self.isLookRoom) {
+        self.labelStart.text = @"Ngày bắt đầu";
+        self.labelEnd.text = @"Ngày kết thúc";
+        [self.btnContinue setTitle:@"Khóa nhà" forState:UIControlStateNormal];
+    }
+    
     [self getListBookRoom];
 }
 
 - (IBAction)continue:(id)sender {
     if ([self checkEnoughInfo]) {
-        BookingInfoCustomerViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"BookingInfoCustomerViewController"];
-        vc.dictRoom = self.dictRoom;
-        vc.dictBookingDate = @{@"StartDate":startDate,
-                               @"EndDate":endDate};
-        [self.navigationController pushViewController:vc animated:YES];
+        if (self.isLookRoom) {
+            [self lookRoom];
+        }else{
+            [self bookingContinue];
+        }
     }
 }
 
 - (IBAction)removeSelectDay:(id)sender {
     arraySelectDate = [NSMutableArray array];
     [self.collectionView reloadData];
+    isSelectStartDate = YES;
+    self.labelStartDay.text = @" ";
+    self.labelStartDate.text = @"dd/MM/yyyy";
+    self.labelEndDay.text = @" ";
+    self.labelEndDate.text = @"dd/MM/yyyy";
+    self.labelNumberDate.text = @"-";
 }
 
 - (BOOL)checkEnoughInfo {
@@ -85,6 +96,14 @@
     }
     
     return isOK;
+}
+
+- (void)bookingContinue {
+    BookingInfoCustomerViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"BookingInfoCustomerViewController"];
+    vc.dictRoom = self.dictRoom;
+    vc.dictBookingDate = @{@"StartDate":startDate,
+                           @"EndDate":endDate};
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark CollectionView
@@ -118,7 +137,10 @@
     cell.viewIsToDay.backgroundColor = [bkDate getBackgroundColorViewToDay];
     cell.viewDisableEndDate.hidden = !bkDate.isDisableFirstDate;
     cell.viewDisableFirstDate.hidden = !bkDate.isDisableEndDate;
-
+    
+    cell.viewCurrentPrice.hidden = !bkDate.isDiscountDate;
+    cell.labelCurrentPrice.text = [bkDate getTextCurrentPrice];
+    
     return cell;
 }
 
@@ -187,16 +209,21 @@
 
 - (BOOL)checkSelectDate : (NSDate *)dateSelect {
     BOOL isOK = YES;
-    if ([self _numberOfDaysFromDate:dateSelect toDate:[NSDate date]] >= 0) {
+    if ([self _numberOfDaysFromDate:dateSelect toDate:[NSDate date]]/60/60 > 24) {
         isOK = NO;
-        [Utils alertError:@"Ngày chọn không hợp lệ" content:@"Ngày đặt phòng phải sau ngày hôm nay. Mời chọn lại" viewController:nil completion:^{
+        [Utils alertError:@"Ngày chọn không hợp lệ" content:@"Ngày đặt nhà phải sau ngày hôm nay. Mời chọn lại" viewController:nil completion:^{
+            
+        }];
+    } else if ([arrayDisableDate containsObject:dateSelect]) {
+        isOK = NO;
+        [Utils alertError:@"Ngày chọn không hợp lệ" content:@"Mời chọn lại" viewController:nil completion:^{
             
         }];
     } else {
         if (isSelectStartDate) {
             if ([arrayDisableStartDate containsObject:dateSelect]) {
                 isOK = NO;
-                [Utils alertError:@"Ngày bắt đầu không hợp lệ" content:@"Ngày đã chọn trùng với lịch đặt phòng đã có. Mời chọn lại" viewController:nil completion:^{
+                [Utils alertError:@"Ngày bắt đầu không hợp lệ" content:@"Ngày đã chọn trùng với lịch đặt nhà đã có. Mời chọn lại" viewController:nil completion:^{
                     
                 }];
             }else{
@@ -210,12 +237,12 @@
                 }];
             }else if ([arrayDisableEndDate containsObject:dateSelect]) {
                 isOK = NO;
-                [Utils alertError:@"Ngày kết thúc không hợp lệ" content:@"Ngày đã chọn trùng với lịch đặt phòng đã tồn tại. Mời chọn lại" viewController:nil completion:^{
+                [Utils alertError:@"Ngày kết thúc không hợp lệ" content:@"Ngày đã chọn trùng với lịch đặt nhà đã tồn tại. Mời chọn lại" viewController:nil completion:^{
                     
                 }];
             }else if (![self checkEndDate:dateSelect]) {
                 isOK = NO;
-                [Utils alertError:@"Ngày kết thúc không hợp lệ" content:@"Trong nhưng ngày đã chọn, có ngày trùng với lịch đặt phòng đã tồn tại. Mời chọn lại" viewController:nil completion:^{
+                [Utils alertError:@"Ngày kết thúc không hợp lệ" content:@"Trong nhưng ngày đã chọn, có ngày trùng với lịch đặt nhà đã tồn tại. Mời chọn lại" viewController:nil completion:^{
                     
                 }];
             }else{
@@ -279,7 +306,7 @@
     for (NSDateComponents *comps in arrayMonth) {
         NSDate *firstDate = [calender dateFromComponents:comps];
         
-        int start = (int)[self _placeInWeekForDate:firstDate];
+        int start = [Utils placeInWeekForDate:firstDate];
         
         for (int i=0; i<42; i++) {
             if (i<start) {
@@ -293,13 +320,38 @@
                     if ([self _numberOfDaysFromDate:firstDate toDate:[NSDate date]] > 0) {
                         bkDate.isDisable = YES;
                     }else{
-                        bkDate.isDisable = NO;
-                        bkDate.isDisableFirstDate = [arrayDisableStartDate containsObject:firstDate];
-                        bkDate.isDisableEndDate = [arrayDisableEndDate containsObject:firstDate];
+                        if ([arrayDisableDate containsObject:firstDate]) {
+                            bkDate.isDisable = YES;
+                        }else{
+                            bkDate.isDisable = NO;
+                            bkDate.isDisableFirstDate = [arrayDisableStartDate containsObject:firstDate];
+                            bkDate.isDisableEndDate = [arrayDisableEndDate containsObject:firstDate];
+                        }
                     }
                     bkDate.date = firstDate;
-                    bkDate.priceNormal = [Utils convertNumber:self.dictRoom[@"PRICE"]];
-                    bkDate.priceSpecial = [Utils convertNumber:self.dictRoom[@"PRICE_SPECIAL"]];
+                    
+                    long long priceNormalValue = 0;
+                    long long priceSpecialValue = 0;
+                    
+                    if ([Utils isTimePromotion:self.dictRoom:firstDate]) {
+                        priceNormalValue = [self.dictRoom[@"PRICE"] longLongValue] - [self.dictRoom[@"DISCOUNT"] longLongValue];
+                        priceSpecialValue = [self.dictRoom[@"PRICE_SPECIAL"] longLongValue] - [self.dictRoom[@"DISCOUNT"] longLongValue];
+                        bkDate.isDiscountDate = YES;
+                    }else{
+                        priceNormalValue = [self.dictRoom[@"PRICE"] longLongValue];
+                        priceSpecialValue = [self.dictRoom[@"PRICE_SPECIAL"] longLongValue];
+                    }
+                    
+                    NSString *priceNormal = [NSString stringWithFormat:@"%lld",priceNormalValue];
+                    NSString *priceSpecial = [NSString stringWithFormat:@"%lld",priceSpecialValue];
+                    
+                    NSString *priceCurrentNormal = [NSString stringWithFormat:@"%lld",[self.dictRoom[@"PRICE"] longLongValue]];
+                    NSString *priceCurrentSpecial = [NSString stringWithFormat:@"%lld",[self.dictRoom[@"PRICE_SPECIAL"] longLongValue]];
+                    
+                    bkDate.priceNormal = [Utils convertNumber:priceNormal];
+                    bkDate.priceSpecial = [Utils convertNumber:priceSpecial];
+                    bkDate.priceNormalCurrent = [Utils convertNumber:priceCurrentNormal];
+                    bkDate.priceSpecialCurrent = [Utils convertNumber:priceCurrentSpecial];
                     [[listBookingDate objectForKey:[NSString stringWithFormat:@"Tháng %ld, %ld",(long)comps.month,(long)comps.year]] addObject:bkDate];
                     firstDate = [self _nextDay:firstDate];
                 }else{
@@ -343,11 +395,6 @@
     }
 }
 
-- (NSInteger)_placeInWeekForDate:(NSDate *)date {
-    NSDateComponents *compsFirstDayInMonth = [calender components:NSCalendarUnitWeekday fromDate:date];
-    return (compsFirstDayInMonth.weekday - 1 - calender.firstWeekday + 8) % 7;
-}
-
 - (BOOL)_dateIsToday:(NSDate *)date {
     return [self date:[NSDate date] isSameDayAsDate:date];
 }
@@ -383,9 +430,11 @@
 }
 
 - (NSInteger)_numberOfDaysFromDate:(NSDate *)startDate toDate:(NSDate *)endDate {
-    NSInteger startDay = [calender ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:startDate];
-    NSInteger endDay = [calender ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:endDate];
-    return endDay - startDay;
+    return [endDate timeIntervalSinceDate:startDate];
+//
+//    NSInteger startDay = [calender ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:startDate];
+//    NSInteger endDay = [calender ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:endDate];
+//    return endDay - startDay;
 }
 
 - (BOOL)checkArrayDisaleDateContainDate : (NSDate *)date {
@@ -400,7 +449,7 @@
 - (NSDate *)getDateFromStringDate : (NSString *)date {
     NSDateFormatter *clientDateFormatter = [[NSDateFormatter alloc] init];
     [clientDateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-    [clientDateFormatter setDateFormat:@"dd/MM/yyyy"];
+    [clientDateFormatter setDateFormat:@"dd/MM/yyyy HH:mm:ss"];
     
     NSDate *clientDate = [clientDateFormatter dateFromString:date];
     
@@ -411,21 +460,24 @@
     return firstDate;
 }
 
+- (NSDate *)dateByAddingMonths : (NSDate *)date {
+    NSDateComponents *comps = [calender components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:date];
+    comps.year = comps.year + 1;
+    [comps setMonth:[comps month]+1];
+    [comps setDay:0];
+    NSDate *tDateMonth = [calender dateFromComponents:comps];
+    
+    return tDateMonth;
+}
+
 #pragma mark CallAPI
 
 - (void)getListBookRoom {
     NSDictionary *param = @{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
-                            @"ID_BOOKROOM":@"",
-                            @"ROOM_NAME":self.dictRoom[@"NAME"],
-                            @"GENLINK":self.dictRoom[@"GENLINK"],
-                            @"BOOKING_NAME":@"",
-                            @"START_TIME":[Utils getDateFromDate:[GLDateUtils monthFirstDate:[NSDate date]]],
-                            @"END_TIME":[Utils getDateFromDate:[GLDateUtils dateByAddingMonths:12 toDate:[NSDate date]]],
-                            @"BILLING_STATUS":@"",
-                            @"BOOKING_STATUS":@""
+                            @"GENLINK":self.dictRoom[@"GENLINK"]
                             };
     
-    [CallAPI callApiService:@"book/list_bookroom" dictParam:param isGetError:YES viewController:nil completeBlock:^(NSDictionary *dictData) {
+    [CallAPI callApiService:@"book/get_list_day" dictParam:param isGetError:YES viewController:nil completeBlock:^(NSDictionary *dictData) {
         if ([dictData[@"ERROR"] isEqualToString:@"0000"]) {
             NSArray *arrayBook = dictData[@"INFO"];
             
@@ -468,33 +520,19 @@
     }];
 }
 
-- (void)getReportRoom : (NSString *)genlink {
+- (void)lookRoom {
     NSDictionary *param = @{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
-                            @"ROOM_NAME":genlink,
-                            @"BOOKING_NAME":@"",
-                            @"START_TIME":[Utils getDateFromDate:[GLDateUtils monthFirstDate:[NSDate date]]],
-                            @"END_TIME":[Utils getDateFromDate:[GLDateUtils dateByAddingMonths:12 toDate:[NSDate date]]]
-                            };
+                            @"GENLINK":self.dictRoom[@"GENLINK"],
+                            @"CHECKIN":self.labelStartDate.text,
+                            @"CHECKOUT":self.labelEndDate.text,
+    };
     
-    [CallAPI callApiService:@"report/get_report_detail" dictParam:param isGetError:YES viewController:nil completeBlock:^(NSDictionary *dictData) {
-        if ([dictData[@"ERROR"] isEqualToString:@"0000"]) {
-            NSArray *arrayBook = dictData[@"INFO"];
-            
-            self->arrayDisableDate = [NSMutableArray array];
-            for (NSDictionary *dict in arrayBook) {
-                NSDate *startDate = [self getDateFromStringDate:dict[@"START_TIME"]];
-                NSDate *endDate = [self getDateFromStringDate:dict[@"END_TIME"]];
-                NSDate *nextDate = startDate;
-                while ([Utils _numberOfDaysFromDate:nextDate toDate:endDate] >= 0) {
-                    [self->arrayDisableDate addObject:nextDate];
-                    nextDate = [Utils _nextDay:nextDate];
-                }
-            }
-        }else{
-            
-        }
-        [self settupCalendar];
+    [CallAPI callApiService:@"book/lockroom" dictParam:param isGetError:NO viewController:nil completeBlock:^(NSDictionary *dictData) {
+        [Utils alertError:@"Thông báo" content:dictData[@"RESULT"] viewController:nil completion:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
     }];
+    
 }
 
 @end

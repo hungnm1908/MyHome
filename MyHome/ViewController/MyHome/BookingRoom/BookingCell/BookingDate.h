@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property BOOL isDisableEndDate;
 @property BOOL isToday;
 @property BOOL isSelect;
+@property BOOL isBillingFirstDate;
+@property BOOL isBillingEndDate;
+@property BOOL isDiscountDate;
+@property NSString *priceNormalCurrent;
+@property NSString *priceSpecialCurrent;
 
 - (NSString *)getTextDate;
 - (UIColor *)getTextDateColor;
@@ -29,7 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor *)getTextPriceColor;
 
 - (UIColor *)getBackgroundColor;
-- (UIColor *)getBackgroundColorViewToDay ;
+- (UIColor *)getBackgroundColorViewToDay;
+
+- (UIColor *)getDisableStartViewColor;
+- (UIColor *)getDisableEndViewColor;
+
+- (NSString *)getTextCurrentPrice;
 
 @end
 

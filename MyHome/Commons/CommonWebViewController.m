@@ -15,20 +15,13 @@
 @implementation CommonWebViewController {
     NSTimer *timer;
     int timeProcess;
+    WKWebView *wkWebView;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *stringUrl = @"https://test365.vn/dieu-khoan.html";
-    
-    NSURL *url = [NSURL URLWithString:stringUrl];
-    
-    //URL Requst Object
-    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
-    
-    //Load the request in the UIWebView.
-    [self.webView loadRequest:requestObj];
+    [self settupWebView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,39 +34,65 @@
     [self stopTime];
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSURL *url = [request URL];
-    NSString *urlStr = url.absoluteString;
-    NSLog(@"HungNmg %@",urlStr);
-    return  [self processURL:urlStr];
+- (void)settupWebView {
+    self.labelTitle.text = self.titleView;
+    
+    WKWebViewConfiguration *theConfiguration = [[WKWebViewConfiguration alloc] init];
+    theConfiguration.allowsInlineMediaPlayback = YES;
+    
+    wkWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.viewWeb.frame.size.width, self.viewWeb.frame.size.height) configuration:theConfiguration];
+    wkWebView.navigationDelegate = self;
+    
+    [self.viewWeb addSubview:wkWebView];
+    
+    wkWebView.scrollView.delegate = self;
+    wkWebView.navigationDelegate = self;
+    
+    if (self.stringUrl) {
+        NSURL *url = [NSURL URLWithString:self.stringUrl];
+        
+        //URL Requst Object
+        NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+        
+        //Load the request in the WebView.
+        [wkWebView loadRequest:requestObj];
+    }else{
+        NSString *headerString = @"<header><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'></header>";
+        NSString *htmlStr = [headerString stringByAppendingString:self.stringContent];
+        [wkWebView loadHTMLString:htmlStr baseURL:[[NSBundle mainBundle] bundleURL]];
+    }
 }
 
-- (BOOL) processURL:(NSString *) url {
-    return YES;
+- (IBAction)dismissView:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    NSLog(@"HungNmg bat dau load web");
+- (IBAction)goHome:(id)sender {
+    [wkWebView goForward];
+}
+
+- (IBAction)refresh:(id)sender {
+    [wkWebView reload];
+}
+
+#pragma mark WKWebView
+
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
+    NSLog(@"HungNmg bat dau load wkWeb");
     [SVProgressHUD show];
     [self startCallTime];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    NSLog(@"HungNmg da load xong web");
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    NSLog(@"HungNmg da load xong wkWeb");
     [SVProgressHUD dismiss];
     [self stopTime];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    NSLog(@"Error : %@",error);
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    NSLog(@"Error wkWeb: %@",error);
     [SVProgressHUD dismiss];
     [self stopTime];
-}
-
-- (void) reciveNotifi : (NSNotification *)notif {
-    if ([notif.name isEqualToString:@"StationMapRefresh"]) {
-        [self.webView goBack];
-    }
 }
 
 - (void)startCallTime{

@@ -7,10 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MyRoomDetailViewController : UIViewController
+@interface MyRoomDetailViewController : BaseViewController<UIScrollViewDelegate>
+
+@property BOOL isCreate;
+@property NSDictionary *dictRoom;
+
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *controllView;
 
 @end
 

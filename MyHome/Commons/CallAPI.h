@@ -13,11 +13,9 @@
 
 @interface CallAPI : NSObject
 
-+ (void)callAPIService : (NSString *)service arrayParam:(NSArray *)arrayParam completeBlock:(void(^)(NSDictionary *dictData))block;
++ (void)callApiService : (NSString *)service dictParam:(NSDictionary *)dictParam isGetError:(BOOL)isGetError viewController : (UIViewController *)vc completeBlock:(void(^)(NSDictionary *dictData))block;
 
-+ (void)signup : (NSString *)username  password : (NSString *)password giftCode : (NSString *)giftCode completeBlock:(void(^)(NSDictionary *dictData))block;
-
-+ (void)login : (NSString *)username password : (NSString *)password completeBlock:(void(^)(NSDictionary *dictData))block;
++ (void)login : (NSDictionary *)param viewController : (UIViewController *)vc completeBlock:(void(^)(NSDictionary *dictData))block;
 
 @end
 

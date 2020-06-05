@@ -21,4 +21,13 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)changeStatus:(id)sender {
+    if ([self.iconCheckBox.image isEqual:[UIImage imageNamed:@"icon_check"]]) {
+        self.iconCheckBox.image = [UIImage imageNamed:@"icon_uncheck"];
+    }else{
+        self.iconCheckBox.image = [UIImage imageNamed:@"icon_check"];
+    }
+}
+
+
 @end

@@ -12,6 +12,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ListCustomerTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *imageAvatar;
+@property (weak, nonatomic) IBOutlet UILabel *labelName;
+@property (weak, nonatomic) IBOutlet UILabel *labelCMT;
+@property (weak, nonatomic) IBOutlet UILabel *labelPhoneMunber;
+@property (weak, nonatomic) IBOutlet UILabel *labelEmail;
+@property (weak, nonatomic) IBOutlet UILabel *labelAdress;
+@property (weak, nonatomic) IBOutlet UILabel *labelDoB;
+@property (weak, nonatomic) IBOutlet UILabel *labelTP;
+
 @end
 
 NS_ASSUME_NONNULL_END

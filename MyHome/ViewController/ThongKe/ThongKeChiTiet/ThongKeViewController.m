@@ -28,17 +28,27 @@
     
     NSDictionary *dictHome;
     NSArray *arrayHome;
+    
+    BOOL isSettup;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self createCalendar];
-    [self getListThongKe];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reciveNotifi:) name:@"kMyHome" object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (isSettup == NO) {
+        isSettup = YES;
+        
+        self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+        [self createCalendar];
+        [self getListThongKe];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reciveNotifi:) name:@"kMyHome" object:nil];
+    }
 }
 
 - (IBAction)selectMyHome:(id)sender {
@@ -49,24 +59,10 @@
     }
 }
 
-- (IBAction)showViewSearch:(id)sender {
-    self.heightViewSearch.constant = currentHeightViewSearch;
-    self.viewSearch.hidden = NO;
-}
-
-- (IBAction)hideViewSearch:(id)sender {
-    currentHeightViewSearch = self.heightViewSearch.constant;
-    self.heightViewSearch.constant = 30;
-    self.viewSearch.hidden = YES;
-}
-
-- (IBAction)getReport:(id)sender {
+- (void)getReport {
     arraySection = [NSMutableArray array];
     dictReport = [NSMutableDictionary dictionary];
     [self.tableView reloadData];
-    
-    [self hideViewSearch:nil];
-    [self.textFieldNameBooker resignFirstResponder];
     [self getListThongKe];
 }
 
@@ -84,21 +80,17 @@
     CommonTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CommonTableViewController"];
     vc.arrayItem = arrayHome;
     vc.typeView = kMyHome;
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void)createCalendar {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setDateFormat:@"dd/MM/yyyy"];
-    NSString *now = [dateFormatter stringFromDate:[NSDate date]];
-    self.textFieldToDate.text = now;
+    NSString *firstDay = [@"01/" stringByAppendingString:self.month];
+    self.textFieldFromDate.text = firstDay;
     
-    NSDateFormatter *yearFormatter = [[NSDateFormatter alloc] init];
-    [yearFormatter setDateStyle:NSDateFormatterShortStyle];
-    [yearFormatter setDateFormat:@"MM/yyyy"];
-    NSString *from = [@"01/" stringByAppendingString:[yearFormatter stringFromDate:[NSDate date]]];
-    self.textFieldFromDate.text = from;
+    NSString *monthReport = [[self.month componentsSeparatedByString:@"/"] firstObject];
+    NSString *lastDay = [NSString stringWithFormat:@"%@/%@",[self getLastDayOfMonth:[monthReport intValue]],self.month];
+    self.textFieldToDate.text = lastDay;
     
     viewCalendar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     viewCalendar.backgroundColor = [UIColor clearColor];
@@ -122,7 +114,6 @@
 
 - (void)showCalendar {
     [self.textFieldNameHome resignFirstResponder];
-    [self.textFieldNameBooker resignFirstResponder];
     [[[self appDelegate] window] addSubview:viewCalendar];
 }
 
@@ -143,6 +134,18 @@
     
     [self closeCalendar];
     calendarView = nil;
+    
+    [self getReport];
+}
+
+- (NSString *)getLastDayOfMonth : (int)month {
+    if (month == 2) {
+        return @"28";
+    }else if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
+        return @"31";
+    }else{
+        return @"30";
+    }
 }
 
 - (AppDelegate *) appDelegate {
@@ -164,9 +167,13 @@
     NSArray *arrayReport = dictReport[key];
     NSDictionary *dict = [Utils converDictRemoveNullValue:arrayReport[indexPath.row]];
     
-    cell.labelNameRoom.text = dict[@"BOOK_NAME"];
-    cell.labelTime.text = [NSString stringWithFormat:@"từ : %@\nđến : %@",dict[@"START_TIME"],dict[@"END_TIME"]];
-    cell.labelMoney.text = [Utils strCurrency:dict[@"REVENUE"]];
+    long long loiNhuan = [dict[@"REVENUE"] longLongValue];
+    long long chiPhi = [dict[@"SELL_COSTS"] longLongValue] + [dict[@"SERVICE_COSTS"] longLongValue] + [dict[@"OTHER_COSTS"] longLongValue];
+    long long doanhThu = [dict[@"BOOK_PRICE"] longLongValue];
+    
+    cell.labelDoanhThu.text = [Utils strCurrency:[NSString stringWithFormat:@"%lld",doanhThu]];
+    cell.labelChiPhi.text = [Utils strCurrency:[NSString stringWithFormat:@"%lld",chiPhi]];
+    cell.labelLoiNhuan.text = [Utils strCurrency:[NSString stringWithFormat:@"%lld",loiNhuan]];
     
     return cell;
 }
@@ -194,7 +201,8 @@
     }
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
-    cell.labelTitle.text = arraySection[section];
+    NSString *key = arraySection[section];
+    cell.labelTitle.text = [[key componentsSeparatedByString:@"#"] lastObject];
     
     return cell;
 }
@@ -202,30 +210,51 @@
 #pragma mark CallAPI
 
 - (void)getListThongKe {
+    self.labelDoanhThuTong.text = @"0 vnđ";
+    self.labelChiPhiTong.text = @"0 vnđ";
+    self.labelLoiNhuan.text = @"0 vnđ";
+    
     NSDictionary *param = @{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
-                            @"ID_BOOKROOM":@"",
-                            @"ROOM_NAME":self.textFieldNameHome.text,
-                            @"BOOKING_NAME":self.textFieldNameBooker.text,
+                            @"ROOM_NAME":dictHome ? dictHome[@"GENLINK"] : @"",
+                            @"BOOKING_NAME":@"",
                             @"START_TIME":self.textFieldFromDate.text,
                             @"END_TIME":self.textFieldToDate.text
                             };
     
-    [CallAPI callApiService:@"room/get_report" dictParam:param isGetError:NO viewController:nil completeBlock:^(NSDictionary *dictData) {
+    [CallAPI callApiService:@"report/get_report_detail" dictParam:param isGetError:NO viewController:nil completeBlock:^(NSDictionary *dictData) {
         NSArray *arrayReport = dictData[@"INFO"];
         self->dictReport = [NSMutableDictionary dictionary];
         self->arraySection = [NSMutableArray array];
+        
+        long long loiNhuanTong = 0;
+        long long chiPhiTong = 0;
+        long long doanhThuTong = 0;
+        
         NSString *key = @"";
         long long total = 0;
         for (NSDictionary *dict in arrayReport) {
             total += [dict[@"REVENUE"] longLongValue];
-            if (![key isEqualToString:dict[@"ROOM_NAME"]]) {
-                key = dict[@"ROOM_NAME"];
+            NSString *newKey = [NSString stringWithFormat:@"%@#%@",dict[@"GENLINK"],dict[@"ROOM_NAME"]];
+            if (![key isEqualToString:newKey]) {
+                key = newKey;
                 [self->arraySection addObject:key];
                 [self->dictReport setObject:[NSMutableArray array] forKey:key];
             }
             [self->dictReport[key] addObject:dict];
+            
+            long long loiNhuan = [dict[@"REVENUE"] longLongValue];
+            long long chiPhi = [dict[@"SELL_COSTS"] longLongValue] + [dict[@"SERVICE_COSTS"] longLongValue] + [dict[@"OTHER_COSTS"] longLongValue];
+            long long doanhThu = [dict[@"BOOK_PRICE"] longLongValue];
+            
+            loiNhuanTong += loiNhuan;
+            chiPhiTong += chiPhi;
+            doanhThuTong += doanhThu;
         }
-        self.labelTotal.text = [NSString stringWithFormat:@"%@ vnđ",[Utils strCurrency:[NSString stringWithFormat:@"%lld",total]]];
+        
+        self.labelDoanhThuTong.text = [[Utils strCurrency:[NSString stringWithFormat:@"%lld",doanhThuTong]] stringByAppendingFormat:@" vnđ"];
+        self.labelChiPhiTong.text = [[Utils strCurrency:[NSString stringWithFormat:@"%lld",chiPhiTong]] stringByAppendingFormat:@" vnđ"];
+        self.labelLoiNhuan.text = [[Utils strCurrency:[NSString stringWithFormat:@"%lld",loiNhuanTong]] stringByAppendingFormat:@" vnđ"];
+        
         [self.tableView reloadData];
     }];
 }
@@ -244,7 +273,14 @@
 - (void) reciveNotifi : (NSNotification *)notif {
     if ([notif.name isEqualToString:@"kMyHome"]) {
         dictHome = notif.object;
-        self.textFieldNameHome.text = dictHome[@"NAME"];
+        if (dictHome.count > 0) {
+            self.textFieldNameHome.text = dictHome[@"NAME"];
+        }else{
+            self.textFieldNameHome.text = @"- Tất cả -";
+            dictHome = nil;
+        }
+        
+        [self getReport];
     }
 }
 

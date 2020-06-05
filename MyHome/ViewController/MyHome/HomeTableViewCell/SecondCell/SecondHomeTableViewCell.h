@@ -10,7 +10,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SecondHomeTableViewCell : UITableViewCell
+@protocol SecondHomeTableViewCellDelegate <NSObject>
+
+- (void)pushViewControllerShowDetailItem : (NSDictionary *)dictSkill;
+
+@end
+
+@interface SecondHomeTableViewCell : UITableViewCell<UICollectionViewDelegate, UICollectionViewDataSource>
+
+@property NSArray *arrayItem;
+@property (weak, nonatomic) id<SecondHomeTableViewCellDelegate> delegate;
+
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 

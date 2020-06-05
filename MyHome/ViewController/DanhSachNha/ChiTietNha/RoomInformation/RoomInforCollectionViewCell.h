@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RoomInforCollectionViewCell : UICollectionViewCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewRoom;
+@property (weak, nonatomic) IBOutlet UIButton *btnDelete;
+
 @end
 
 NS_ASSUME_NONNULL_END

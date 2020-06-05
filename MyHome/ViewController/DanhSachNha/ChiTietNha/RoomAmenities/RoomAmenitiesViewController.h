@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RoomAmenitiesViewController : UIViewController
+@interface RoomAmenitiesViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+
+@property NSDictionary *dictRoom;
+@property BOOL isCreate;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 

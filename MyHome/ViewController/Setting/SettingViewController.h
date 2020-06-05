@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
+#import "BaseTabbarViewController.h"
 
-@interface SettingViewController : UIViewController
+@interface SettingViewController : BaseTabbarViewController<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *labelVersion;
 
 @end
