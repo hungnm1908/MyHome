@@ -41,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIButton *btnCall;
 @property (weak, nonatomic) IBOutlet UIButton *btnZall;
 
+@property (weak, nonatomic) IBOutlet UITextField *textFieldToaNha;
+@property (weak, nonatomic) IBOutlet UIImageView *imageDropDownToaNha;
 
 @end
 

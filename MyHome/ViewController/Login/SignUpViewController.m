@@ -34,7 +34,8 @@
 }
 
 - (IBAction)login:(id)sender {
-    [[self appDelegate].window setRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"]];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+    [[self appDelegate].window setRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"]];
     [[self appDelegate].window makeKeyAndVisible];
 }
 
@@ -144,7 +145,8 @@
 }
 
 - (void)selectUserType {
-    CommonTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CommonTableViewController"];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    CommonTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"CommonTableViewController"];
     vc.arrayItem = [VariableStatic sharedInstance].arrayUserType;
     vc.typeView = kUserType;
     vc.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -152,7 +154,8 @@
 }
 
 - (void)selectProvince {
-    CommonTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CommonTableViewController"];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    CommonTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"CommonTableViewController"];
     vc.arrayItem = [VariableStatic sharedInstance].arrayProvince;
     vc.typeView = kProvince;
     vc.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -267,7 +270,8 @@
         [[NSUserDefaults standardUserDefaults] setObject:dictData[@"TOKEN"] forKey:kUserDefaultToken];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserDefaultIsLogin];
         
-        [[[self appDelegate] window] setRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"tabbarController"]];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        [[[self appDelegate] window] setRootViewController:[  storyboard instantiateViewControllerWithIdentifier:@"tabbarController"]];
     }];
 }
 

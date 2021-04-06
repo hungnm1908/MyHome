@@ -53,24 +53,11 @@
         if ([dictResult[@"ERROR"]  isEqual:@"0000"]) {
             block(dictResult);
         }else if ([dictResult[@"ERROR"]  isEqual:@"0002"]) {
-            NSString *user = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName];
-            NSString *pass = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultPassword];
-            if (user && pass) {
-                NSDictionary *param = @{@"USERNAME":user,
-                                        @"PASSWORD":pass
-                };
-                [self login:param viewController : (UIViewController *)vc completeBlock:^(NSDictionary *dictData) {
-                    [self callApiService:service dictParam:dictParam isGetError:isGetError viewController:vc completeBlock:^(NSDictionary *dictData) {
-                        
-                    }];
-                }];
-            }else{
-                [Utils alertError:@"Thông báo" content:@"Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại." viewController:vc completion:^{
-                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    [[self appDelegate].window setRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"]];
-                    [[self appDelegate].window makeKeyAndVisible];
-                }];
-            }
+            [Utils alertError:@"Thông báo" content:@"Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại." viewController:vc completion:^{
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+                [[self appDelegate].window setRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"]];
+                [[self appDelegate].window makeKeyAndVisible];
+            }];
         }else{
             if (isGetError) {
                 block(dictResult);
@@ -104,7 +91,7 @@
             block(dictData);
         }else{
             [Utils alertError:@"Thông báo" content:@"Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại." viewController:vc completion:^{
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
                 [[self appDelegate].window setRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"]];
                 [[self appDelegate].window makeKeyAndVisible];
             }];

@@ -493,26 +493,26 @@
     [CallAPI callApiService:@"book/lockroom" dictParam:param isGetError:NO viewController:nil completeBlock:^(NSDictionary *dictData) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateBookingRoomStatus object:nil];
         
-        NSDictionary *paramCleanRoom = @{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
-                                         @"GENLINK":self.dictRoom[@"GENLINK"],
-                                         @"CHECKIN":param[@"CHECKIN"],
-                                         @"CHECKOUT":param[@"CHECKOUT"],
-                                         @"ID_BOOKROOM":dictData[@"ID_BOOKROOM"],
-                                         @"NOTE":@""
-        };
+        [Utils alert:@"Thông báo" content:@"Khóa phòng thành công. Bạn có muốn đặt dịch vụ dọn dẹp phòng không ?" titleOK:@"Đồng ý" titleCancel:@"Để sau" viewController:nil completion:^{
+            NSDictionary *paramCleanRoom = @{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
+                                             @"GENLINK":self.dictRoom[@"GENLINK"],
+                                             @"CHECKIN":param[@"CHECKIN"],
+                                             @"CHECKOUT":param[@"CHECKOUT"],
+                                             @"ID_BOOKROOM":dictData[@"ID_BOOKROOM"],
+                                             @"NOTE":@""
+            };
+            
+            BookCleanServiceViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"BookCleanServiceViewController"];
+            vc.dictParam = paramCleanRoom;
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
         
-        BookCleanServiceViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"BookCleanServiceViewController"];
-        vc.dictParam = paramCleanRoom;
-        [[self appDelegate].window.rootViewController.view addSubview:vc.view];
-        [[self appDelegate].window.rootViewController addChildViewController:vc];
         
 //        if ( [self->userInfo[@"USER_TYPE"] intValue] == 0 || [self->userInfo[@"USER_TYPE"] intValue] == 4) {//Là admin hoặc qldondep thì đặt  dọn phòng luôn
 //
 //        }else{
 //
-//            [Utils alert:@"Thông báo" content:mes titleOK:@"Đồng ý" titleCancel:@"Để sau" viewController:nil completion:^{
-//                [self bookCleanRoom:paramCleanRoom];
-//            }];
 //        }
     }];
     

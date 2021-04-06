@@ -44,8 +44,7 @@
 }
 
 - (IBAction)dismissView:(id)sender {
-    [self removeFromParentViewController];
-    [self.view removeFromSuperview];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)bookCleanService:(id)sender {
@@ -69,27 +68,21 @@
                                     @"ID_BOOK_SERVICE":dictData[@"ID_BOOK_SERVICE"],
                                     @"KD_PAID":@"1"
             };
-            [self selectKindOfPay:param];
+            [self selectKindOfPay:param:dictData];
         }else{
+//            self.viewNote.hidden = YES;
             [Utils alertWithCancelProcess:@"Thông báo" content:@"Đặt dịch vụ dọn nhà thành công. Vui lòng chọn hình thức thanh toán" titleOK:@"Trả trước" titleCancel:@"Trả sau" viewController:nil completion:^{
-                BookingPaymentViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"BookingPaymentViewController"];
-                vc.isPaymentClean = YES;
-                vc.totalPrice = [dictData[@"PRICE"] longLongValue];
-                vc.content = dictData[@"CONTENT"];
-                vc.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:vc animated:YES];
-                
                 NSDictionary *param = @{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
                                         @"ID_BOOK_SERVICE":dictData[@"ID_BOOK_SERVICE"],
                                         @"KD_PAID":@"0"
                 };
-                [self selectKindOfPay:param];
+                [self selectKindOfPay:param:dictData];
             } cancel:^{
                 NSDictionary *param = @{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
                                         @"ID_BOOK_SERVICE":dictData[@"ID_BOOK_SERVICE"],
                                         @"KD_PAID":@"1"
                 };
-                [self selectKindOfPay:param];
+                [self selectKindOfPay:param:dictData];
             }];
         }
         
@@ -97,10 +90,19 @@
     }];
 }
 
-- (void)selectKindOfPay : (NSDictionary *)param {
+- (void)selectKindOfPay : (NSDictionary *)param : (NSDictionary *)dictBook {
     [CallAPI callApiService:@"book/kd_paid" dictParam:param isGetError:NO viewController:nil completeBlock:^(NSDictionary *dictData) {
+        if ([param[@"KD_PAID"] intValue] == 0) {
+            BookingPaymentViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"BookingPaymentViewController"];
+            vc.isPaymentClean = YES;
+            vc.totalPrice = [[NSString stringWithFormat:@"%@",dictBook[@"PRICE"]] longLongValue];
+            vc.content = dictBook[@"CONTENT"];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            [self.navigationController popViewControllerAnimated:YES];
+        }
         [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateBookingRoomStatus object:nil];
-        [self dismissView:nil];
     }];
 }
 

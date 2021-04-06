@@ -10,7 +10,7 @@
 #import "IQKeyboardManager.h"
 #import <sys/utsname.h>
 #import "AppDelegate.h"
-#import <SSKeychain/SSKeychain.h>
+//#import <SSKeychain/SSKeychain.h>
 #import "CallAPI.h"
 
 @implementation Utils
@@ -633,14 +633,14 @@
 
 + (NSString *)getUniqueDeviceIdentifierAsString {
     
-    NSString *appID=[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleIdentifierKey];
-    
-    NSString *strApplicationUUID = [SSKeychain passwordForService:appID account:@"incoding"];
-    if (strApplicationUUID == nil)
-    {
-        strApplicationUUID  = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-        [SSKeychain setPassword:strApplicationUUID forService:appID account:@"incoding"];
-    }
+//    NSString *appID=[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleIdentifierKey];
+//    
+//    NSString *strApplicationUUID = [SSKeychain passwordForService:appID account:@"incoding"];
+//    if (strApplicationUUID == nil)
+//    {
+        NSString *strApplicationUUID  = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+//        [SSKeychain setPassword:strApplicationUUID forService:appID account:@"incoding"];
+//    }
     
     return strApplicationUUID;
 }

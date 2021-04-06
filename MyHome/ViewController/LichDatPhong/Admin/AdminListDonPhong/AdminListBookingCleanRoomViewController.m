@@ -243,18 +243,27 @@
     cell.labelContent.text = [NSString stringWithFormat:@"%@ ",dict[@"CONTENT"]];
     cell.labelNote.text = [NSString stringWithFormat:@"%@",dict[@"NOTES"]];
     
-    [cell.btnUpdateStatusBill addTarget:self action:@selector(updateStatusBill:) forControlEvents:UIControlEventTouchUpInside];
     [cell.btnUpdateStatusService addTarget:self action:@selector(updateStatusService:) forControlEvents:UIControlEventTouchUpInside];
     [cell.btnAssign addTarget:self action:@selector(assignCheckIn:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.btnShowImageClean addTarget:self action:@selector(showImageHome:) forControlEvents:UIControlEventTouchUpInside];
     
     if (userType == 0) {
+        cell.btnShowImageClean.hidden = NO;
         if ([dict[@"BILLING_STATUS"] intValue] == 0) {
             cell.btnUpdateStatusBill.hidden = NO;
         }else{
             cell.btnUpdateStatusBill.hidden = YES;
         }
+        [cell.btnUpdateStatusBill addTarget:self action:@selector(updateStatusBill:) forControlEvents:UIControlEventTouchUpInside];
     }else{
-        cell.btnUpdateStatusBill.hidden = YES;
+        cell.btnShowImageClean.hidden = YES;
+        if (userType == 4 || userType == 5) {
+            cell.btnUpdateStatusBill.hidden = NO;
+            [cell.btnUpdateStatusBill setTitle:@"Cập nhật ảnh" forState:UIControlStateNormal];
+            [cell.btnUpdateStatusBill addTarget:self action:@selector(updateImageHome:) forControlEvents:UIControlEventTouchUpInside];
+        }else{
+            cell.btnUpdateStatusBill.hidden = YES;
+        }
     }
     
     cell.btnAssign.hidden = [self isHidenBtnDivide:dict];
@@ -393,6 +402,28 @@
     NSDictionary *dict = [Utils converDictRemoveNullValue:arrayBookService[hitIndex.row]];
     
     [self selectStatusBill:dict];
+}
+
+- (void)showImageHome : (id)sender {
+    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
+    NSDictionary *dict = [Utils converDictRemoveNullValue:arrayBookService[hitIndex.row]];
+    
+    ImageCleanHomeViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"ImageCleanHomeViewController"];
+    vc.idDictBookClean = [NSString stringWithFormat:@"%@",dict[@"ID"]];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)updateImageHome : (id)sender {
+    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
+    NSDictionary *dict = [Utils converDictRemoveNullValue:arrayBookService[hitIndex.row]];
+    
+    AddCleanImageViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"AddCleanImageViewController"];
+    vc.idDictBookClean = [NSString stringWithFormat:@"%@",dict[@"ID"]];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)updateStatusService : (id)sender {
@@ -666,6 +697,8 @@
     }];
 }
 
+#pragma mark Notification
+
 - (void)reciveNotifi : (NSNotification *)notif {
     if ([notif.name isEqualToString:@"kMyHome"]) {
         dictHome = notif.object;
@@ -681,5 +714,6 @@
         [self search:nil];
     }
 }
+
 
 @end

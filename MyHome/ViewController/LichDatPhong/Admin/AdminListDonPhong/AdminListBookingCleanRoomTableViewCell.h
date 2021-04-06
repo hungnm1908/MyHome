@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIButton *btnHomeBook;
 @property (weak, nonatomic) IBOutlet UIButton *btnAssign;
 @property (weak, nonatomic) IBOutlet UILabel *labelNote;
+@property (weak, nonatomic) IBOutlet UIButton *btnShowImageClean;
 
 @end
 

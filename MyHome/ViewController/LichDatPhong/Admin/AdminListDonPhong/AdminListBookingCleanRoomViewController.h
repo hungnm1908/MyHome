@@ -10,6 +10,9 @@
 #import "BaseViewController.h"
 #import <CCDropDownMenus/CCDropDownMenus.h>
 #import "BaseTabbarViewController.h"
+#import "ELCImagePickerController.h"
+#import "ImageCleanHomeViewController.h"
+#import "AddCleanImageViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

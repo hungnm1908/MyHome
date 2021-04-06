@@ -28,6 +28,7 @@
 #define kUpdateNotification @"kUpdateNotification"
 #define kUpdateUserInfo @"kUpdateUserInfo"
 #define kUpdateChiaDonChoCheckIn @"kUpdateChiaDonChoCheckIn"
+#define kUpdateAnhDonDep @"kUpdateAnhDonDep"
 
 #define kUserDefaultUserName @"kUserName"
 #define kUserDefaultToken @"kToken"

@@ -16,6 +16,7 @@
 @implementation InformationViewController {
     NSDictionary *dictTypeUser;
     NSDictionary *dictTP;
+    NSDictionary *dictIdToaNha;
     
     NSData *webData;
     NSString *fileName;
@@ -67,6 +68,7 @@
     self.textFieldAddress.text = [NSString stringWithFormat:@"%@",dict[@"ADDRESS"]];
     self.textFieldTypeUser.text = [NSString stringWithFormat:@"%@",dict[@"DES_USERTYPE"]];
     self.controlStatus.selectedSegmentIndex = [dict[@"STATE"] intValue];
+    self.textFieldToaNha.text = [NSString stringWithFormat:@"%@",dict[@"LOCATION_NAME"]];
     
     NSString *link = [dict[@"AVATAR"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     link = [link stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -85,16 +87,22 @@
                      @"USER_TYPE":[NSString stringWithFormat:@"%@",dict[@"USER_TYPE"]]
                      };
     
+    dictIdToaNha = @{@"LOCATION_NAME":[NSString stringWithFormat:@"%@",dict[@"LOCATION_NAME"]],
+                     @"LOCATION_ID":[NSString stringWithFormat:@"%@",dict[@"LOCATION_ID"]]
+    };
+    
     NSDictionary *userInfo = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserInfo];
     int userType = [userInfo[@"USER_TYPE"] intValue];
     if (self.isEdit && userType==0) {
         self.controlStatus.enabled = YES;
         self.btnSelectUserType.enabled = YES;
         self.imageDropDown.hidden = NO;
+        self.imageDropDownToaNha.hidden = NO;
     }else{
         self.controlStatus.enabled = NO;
         self.btnSelectUserType.enabled = NO;
         self.imageDropDown.hidden = YES;
+        self.imageDropDownToaNha.hidden = YES;
     }
 
     self.textFieldSoTaiKhoan.text = [NSString stringWithFormat:@"%@",dict[@"SO_TK"]];
@@ -132,11 +140,29 @@
     }
 }
 
+- (IBAction)selectToaNha:(id)sender {
+    NSDictionary *userInfo = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserInfo];
+    int userType = [userInfo[@"USER_TYPE"] intValue];
+    if (self.isEdit && userType==0) {
+        if ([Utils lenghtText:self.textFieldTP.text] == 0) {
+            [Utils alertError:@"Thông báo" content:@"Bạn chưa chọn Tỉnh/Thành phố" viewController:self completion:^{
+                [self selectTP:nil];
+            }];
+        }else{
+            [self getListToaNha];
+        }
+    }
+}
+
+
 - (IBAction)selectTypeUser:(id)sender {
     if ([VariableStatic sharedInstance].arrayUserType.count > 0) {
         [self selectUserType];
     }else{
-        [CallAPI callApiService:@"get_type" dictParam:@{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName]} isGetError:NO viewController:self completeBlock:^(NSDictionary *dictData) {
+        NSString *user = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName];
+        NSDictionary *param = @{@"USERNAME":user ? user : @""};
+        
+        [CallAPI callApiService:@"get_type" dictParam:param isGetError:NO viewController:self completeBlock:^(NSDictionary *dictData) {
             [VariableStatic sharedInstance].arrayUserType = dictData[@"INFO"];
             
             [self selectUserType];
@@ -432,6 +458,7 @@
                             @"TENTK":self.textFieldTenTaiKhoan.text,
                             @"TENNH":self.textFieldTenNganHang.text,
                             @"TENCN":self.textFieldTenChiNhanh.text,
+                            @"LOCATION_ID":[NSString stringWithFormat:@"%@",dictIdToaNha[@"LOCATION_ID"]],
                             };
     
     [CallAPI callApiService:@"user/update_info" dictParam:param isGetError:NO viewController:nil completeBlock:^(NSDictionary *dictData) {
@@ -468,6 +495,22 @@
     }];
 }
 
+- (void)getListToaNha {
+    NSDictionary *param = @{@"USERNAME" : [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
+                            @"PROVINCE_ID":[NSString stringWithFormat:@"%@",dictTP[@"MATP"]],
+    };
+    
+    [CallAPI callApiService:@"room/get_location" dictParam:param isGetError:NO viewController:self completeBlock:^(NSDictionary *dictData) {
+        NSArray *arrayIdToaNha = dictData[@"INFO"];
+        
+        CommonTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CommonTableViewController"];
+        vc.arrayItem = arrayIdToaNha;
+        vc.typeView = kBuilding;
+        vc.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:vc animated:YES completion:nil];
+    }];
+}
+
 #pragma mark Notification
 
 - (void) reciveNotifi : (NSNotification *)notif {
@@ -480,6 +523,9 @@
     }else if ([notif.name isEqualToString:@"kVnBank"]) {
         NSDictionary *dictBank = notif.object;
         self.textFieldTenNganHang.text = dictBank[@"name"];
+    }else if ([notif.name isEqualToString:@"kBuilding"]) {
+        dictIdToaNha = notif.object;
+        self.textFieldToaNha.text = dictIdToaNha[@"LOCATION_NAME"];
     }
 }
 

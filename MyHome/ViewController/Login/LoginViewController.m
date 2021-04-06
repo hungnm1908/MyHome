@@ -40,7 +40,8 @@
 }
 
 - (IBAction)signUp:(id)sender {
-    [[self appDelegate].window setRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"SignUpViewController"]];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+    [[self appDelegate].window setRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"SignUpViewController"]];
     [[self appDelegate].window makeKeyAndVisible];
 }
 
@@ -145,7 +146,8 @@
         [[NSUserDefaults standardUserDefaults] setObject:dictData[@"TOKEN"] forKey:kUserDefaultToken];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserDefaultIsLogin];
         
-        [[[self appDelegate] window] setRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"tabbarController"]];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        [[[self appDelegate] window] setRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"tabbarController"]];
         
         [Utils updateAppInfo];
     }];

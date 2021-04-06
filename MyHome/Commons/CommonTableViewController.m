@@ -111,25 +111,25 @@
         switch (self.typeView) {
             case kProvince:
             {
-                cell.textLabel.text = dict[@"NAME"];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@",dict[@"NAME"]];
             }
                 break;
                 
             case kDistrict:
             {
-                cell.textLabel.text = dict[@"DISTRICT_NAME"];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@",dict[@"DISTRICT_NAME"]];
             }
                 break;
                 
             case kUserType:
             {
-                cell.textLabel.text = dict[@"TYPE_NAME"];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@",dict[@"TYPE_NAME"]];
             }
                 break;
                 
             case kMyHome:
             {
-                cell.textLabel.text = dict[@"NAME"];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@",dict[@"NAME"]];
             }
                 break;
                 
@@ -141,25 +141,25 @@
                 
             case kBuilding:
             {
-                cell.textLabel.text = dict[@"LOCATION_NAME"];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@",dict[@"LOCATION_NAME"]];
             }
                 break;
                 
             case kBanner:
             {
-                cell.textLabel.text = dict[@"CITY_NAME"];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@",dict[@"CITY_NAME"]];
             }
                 break;
                 
             case kJourney:
             {
-                cell.textLabel.text = dict[@"name"];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@",dict[@"name"]];
             }
                 break;
                 
             case kRentCar:
             {
-                cell.textLabel.text = dict[@"name"];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@",dict[@"name"]];
             }
                 break;
                 
@@ -265,25 +265,25 @@
             switch (self.typeView) {
                 case kProvince:
                 {
-                    nameArea = dict[@"NAME"];
+                    nameArea = [NSString stringWithFormat:@"%@",dict[@"NAME"]];
                     break;
                 }
                     
                 case kDistrict:
                 {
-                    nameArea = dict[@"DISTRICT_NAME"];
+                    nameArea = [NSString stringWithFormat:@"%@",dict[@"DISTRICT_NAME"]];
                     break;
                 }
                     
                 case kUserType:
                 {
-                    nameArea = dict[@"TYPE_NAME"];
+                    nameArea = [NSString stringWithFormat:@"%@",dict[@"TYPE_NAME"]];
                     break;
                 }
                     
                 case kMyHome:
                 {
-                    nameArea = dict[@"NAME"];
+                    nameArea = [NSString stringWithFormat:@"%@",dict[@"NAME"]];
                     break;
                 }
                     
@@ -295,23 +295,23 @@
                     
                 case kBuilding:
                 {
-                    nameArea = dict[@"LOCATION_NAME"];
+                    nameArea = [NSString stringWithFormat:@"%@",dict[@"LOCATION_NAME"]];
                     break;
                 }
                     
                 case kBanner:
                 {
-                    nameArea = dict[@"CITY_NAME"];
+                    nameArea = [NSString stringWithFormat:@"%@",dict[@"CITY_NAME"]];
                     break;
                 }
                     break;
                     
                 case kJourney: {
-                    nameArea = dict[@"name"];
+                    nameArea = [NSString stringWithFormat:@"%@",dict[@"name"]];
                     break;
                 }
                 case kRentCar: {
-                    nameArea = dict[@"name"];
+                    nameArea = [NSString stringWithFormat:@"%@",dict[@"name"]];
                     break;
                 }
             }

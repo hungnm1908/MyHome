@@ -75,7 +75,7 @@
         [self.delegate pushViewControllerShowDetailItem:[Utils converDictRemoveNullValue:self.arrayItem[indexPath.row]]];
     }else{
         [Utils alert:@"Thông báo" content:@"Vui lòng đăng nhập để sửa dụng chức năng này" titleOK:@"Đăng nhập" titleCancel:@"Để sau" viewController:nil completion:^{
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
             [[self appDelegate].window setRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"]];
             [[self appDelegate].window makeKeyAndVisible];
         }];

@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIButton *btnStatus;
 @property (weak, nonatomic) IBOutlet UIButton *btnCleanRoom;
 @property (weak, nonatomic) IBOutlet UIImageView *iconLock;
+@property (weak, nonatomic) IBOutlet UIButton *btnShowImageClean;
 
 @end
 

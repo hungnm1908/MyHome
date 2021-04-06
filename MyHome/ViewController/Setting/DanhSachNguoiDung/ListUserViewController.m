@@ -266,6 +266,7 @@
                             @"STATE":userStatus,
                             @"ADDRESS":@"",
                             @"PAGE":[NSString stringWithFormat:@"%d",page],
+                            @"GENLINK":self.dictBookService?[NSString stringWithFormat:@"%@",self.dictBookService[@"GENLINK"]]:@"",
                             @"NUMOFPAGE":@"50"
                             };
     

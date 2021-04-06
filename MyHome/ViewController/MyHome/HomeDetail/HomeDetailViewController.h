@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet WKWebView *webViewContent;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightWebViewContent;
 
+@property (weak, nonatomic) IBOutlet UILabel *labelSoNguoiTieuChuan;
 @property (weak, nonatomic) IBOutlet UILabel *labelSoNguoiToiDa;
 @property (weak, nonatomic) IBOutlet UILabel *labelSoGiuongNgu;
 @property (weak, nonatomic) IBOutlet UILabel *labelMoTa;

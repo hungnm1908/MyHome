@@ -84,8 +84,8 @@
             }
         }
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        [[self appDelegate].window setRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"]];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        [[self appDelegate].window setRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"]];
         [[self appDelegate].window makeKeyAndVisible];
     }];
 }
@@ -145,9 +145,11 @@
             
         case 3:
         {
-            NSString *tel = @"tel://0981045225";
+            NSString *tel = @"tel://0944975886";
             NSURL *URL = [NSURL URLWithString:tel];
-            [[UIApplication sharedApplication] openURL:URL];
+            [[UIApplication sharedApplication] openURL:URL options:@{} completionHandler:^(BOOL success) {
+                
+            }];
         }
             break;
             

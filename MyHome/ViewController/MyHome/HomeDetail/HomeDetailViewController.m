@@ -153,7 +153,8 @@
     [self.webViewContent loadHTMLString:htmlStr baseURL:[[NSBundle mainBundle] bundleURL]];
     self.webViewContent.scrollView.scrollEnabled = NO;
     
-    self.labelSoNguoiToiDa.text = [NSString stringWithFormat:@"%@",dictItem[@"MAX_GUEST"]];
+    self.labelSoNguoiTieuChuan.text = [NSString stringWithFormat:@"%@",dictItem[@"MAX_GUEST"]];
+    self.labelSoNguoiToiDa.text = [NSString stringWithFormat:@"%@",dictItem[@"MAX_GUEST_EXIST"]];
     self.labelSoGiuongNgu.text = [NSString stringWithFormat:@"%@",dictItem[@"MAX_BED"]];
     self.labelSoPhongNgu.text = [NSString stringWithFormat:@"%@",dictItem[@"MAX_ROOM"]];
     

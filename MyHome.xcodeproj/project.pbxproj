@@ -82,6 +82,14 @@
 		04FEAEAC22F3AA6500EE2F01 /* ThirdHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FEAEAB22F3AA6500EE2F01 /* ThirdHomeTableViewCell.m */; };
 		04FEAEAF22F3B0AA00EE2F01 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FEAEAE22F3B0AA00EE2F01 /* Utils.m */; };
 		2DBF3608FCFF913C3E039655 /* Pods_MyHome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6280EDB8625D6C37268F6B35 /* Pods_MyHome.framework */; };
+		871C7E6924AA54670018C212 /* AddCleanImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871C7E6824AA54670018C212 /* AddCleanImageViewController.m */; };
+		871C7E6C24AA54740018C212 /* AddCleanImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 871C7E6B24AA54740018C212 /* AddCleanImageTableViewCell.m */; };
+		871C7E6F24AA54800018C212 /* AddCleanImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 871C7E6E24AA54800018C212 /* AddCleanImageCollectionViewCell.m */; };
+		871C7E7624AA691C0018C212 /* AddImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871C7E7524AA691C0018C212 /* AddImageViewController.m */; };
+		87334E8C24A6C7A300323A71 /* ImageCleanHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87334E8B24A6C7A300323A71 /* ImageCleanHomeViewController.m */; };
+		87334E8F24A7208200323A71 /* ImageCleanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87334E8E24A7208200323A71 /* ImageCleanTableViewCell.m */; };
+		87334E9224A7209300323A71 /* ImageCleanCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87334E9124A7209300323A71 /* ImageCleanCollectionViewCell.m */; };
+		87334E9424A72E8A00323A71 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87334E9324A72E8A00323A71 /* Login.storyboard */; };
 		87399AF9240F5F8700FFCD4F /* ManageMyHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87399AF8240F5F8700FFCD4F /* ManageMyHomeViewController.m */; };
 		87399AFE240F5FCB00FFCD4F /* NewReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87399AFD240F5FCB00FFCD4F /* NewReportViewController.m */; };
 		87399B02240F923300FFCD4F /* ManageServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87399B01240F923300FFCD4F /* ManageServiceViewController.m */; };
@@ -261,6 +269,21 @@
 		04FEAEAE22F3B0AA00EE2F01 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		0C59EA83F5A5B678F029A782 /* Pods-MyHome.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyHome.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyHome/Pods-MyHome.release.xcconfig"; sourceTree = "<group>"; };
 		6280EDB8625D6C37268F6B35 /* Pods_MyHome.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyHome.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		871C7E6724AA54670018C212 /* AddCleanImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddCleanImageViewController.h; sourceTree = "<group>"; };
+		871C7E6824AA54670018C212 /* AddCleanImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddCleanImageViewController.m; sourceTree = "<group>"; };
+		871C7E6A24AA54740018C212 /* AddCleanImageTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddCleanImageTableViewCell.h; sourceTree = "<group>"; };
+		871C7E6B24AA54740018C212 /* AddCleanImageTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddCleanImageTableViewCell.m; sourceTree = "<group>"; };
+		871C7E6D24AA54800018C212 /* AddCleanImageCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddCleanImageCollectionViewCell.h; sourceTree = "<group>"; };
+		871C7E6E24AA54800018C212 /* AddCleanImageCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddCleanImageCollectionViewCell.m; sourceTree = "<group>"; };
+		871C7E7424AA691C0018C212 /* AddImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddImageViewController.h; sourceTree = "<group>"; };
+		871C7E7524AA691C0018C212 /* AddImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddImageViewController.m; sourceTree = "<group>"; };
+		87334E8A24A6C7A300323A71 /* ImageCleanHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCleanHomeViewController.h; sourceTree = "<group>"; };
+		87334E8B24A6C7A300323A71 /* ImageCleanHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCleanHomeViewController.m; sourceTree = "<group>"; };
+		87334E8D24A7208200323A71 /* ImageCleanTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCleanTableViewCell.h; sourceTree = "<group>"; };
+		87334E8E24A7208200323A71 /* ImageCleanTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCleanTableViewCell.m; sourceTree = "<group>"; };
+		87334E9024A7209300323A71 /* ImageCleanCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCleanCollectionViewCell.h; sourceTree = "<group>"; };
+		87334E9124A7209300323A71 /* ImageCleanCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCleanCollectionViewCell.m; sourceTree = "<group>"; };
+		87334E9324A72E8A00323A71 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		87399AF7240F5F8700FFCD4F /* ManageMyHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ManageMyHomeViewController.h; sourceTree = "<group>"; };
 		87399AF8240F5F8700FFCD4F /* ManageMyHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManageMyHomeViewController.m; sourceTree = "<group>"; };
 		87399AFC240F5FCB00FFCD4F /* NewReportViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewReportViewController.h; sourceTree = "<group>"; };
@@ -751,6 +774,34 @@
 			path = ThirdCell;
 			sourceTree = "<group>";
 		};
+		871C7E6624AA50EA0018C212 /* Them Anh Don Dep */ = {
+			isa = PBXGroup;
+			children = (
+				871C7E6724AA54670018C212 /* AddCleanImageViewController.h */,
+				871C7E6824AA54670018C212 /* AddCleanImageViewController.m */,
+				871C7E6A24AA54740018C212 /* AddCleanImageTableViewCell.h */,
+				871C7E6B24AA54740018C212 /* AddCleanImageTableViewCell.m */,
+				871C7E6D24AA54800018C212 /* AddCleanImageCollectionViewCell.h */,
+				871C7E6E24AA54800018C212 /* AddCleanImageCollectionViewCell.m */,
+				871C7E7424AA691C0018C212 /* AddImageViewController.h */,
+				871C7E7524AA691C0018C212 /* AddImageViewController.m */,
+			);
+			path = "Them Anh Don Dep";
+			sourceTree = "<group>";
+		};
+		87334E8924A6C77B00323A71 /* Danh Sach Anh Don Dep */ = {
+			isa = PBXGroup;
+			children = (
+				87334E8A24A6C7A300323A71 /* ImageCleanHomeViewController.h */,
+				87334E8B24A6C7A300323A71 /* ImageCleanHomeViewController.m */,
+				87334E8D24A7208200323A71 /* ImageCleanTableViewCell.h */,
+				87334E8E24A7208200323A71 /* ImageCleanTableViewCell.m */,
+				87334E9024A7209300323A71 /* ImageCleanCollectionViewCell.h */,
+				87334E9124A7209300323A71 /* ImageCleanCollectionViewCell.m */,
+			);
+			path = "Danh Sach Anh Don Dep";
+			sourceTree = "<group>";
+		};
 		87399AFA240F5F8D00FFCD4F /* ListMyHome */ = {
 			isa = PBXGroup;
 			children = (
@@ -942,6 +993,7 @@
 		87D7538B2115C22700A26F93 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				87334E9324A72E8A00323A71 /* Login.storyboard */,
 				87D7538C2115C23F00A26F93 /* LoginViewController.h */,
 				87D7538D2115C23F00A26F93 /* LoginViewController.m */,
 				04409F2422E5B75F00224B82 /* SignUpViewController.h */,
@@ -972,6 +1024,8 @@
 			children = (
 				0455A97623614A43004FDB6C /* ManageBookingViewController.h */,
 				0455A97723614A43004FDB6C /* ManageBookingViewController.m */,
+				871C7E6624AA50EA0018C212 /* Them Anh Don Dep */,
+				87334E8924A6C77B00323A71 /* Danh Sach Anh Don Dep */,
 				87FDFB89247046BB008DDB01 /* Dat Don Dep */,
 				0455A97A23614BC3004FDB6C /* Admin */,
 				0455A97923614BAA004FDB6C /* ChuNha */,
@@ -1103,6 +1157,7 @@
 				8779A434248908930043845D /* ListIphone.plist in Resources */,
 				0403CB8E2344A970009A27AA /* AAHighchartsLibrary.js in Resources */,
 				87D753562115B4B200A26F93 /* Main.storyboard in Resources */,
+				87334E9424A72E8A00323A71 /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1165,6 +1220,7 @@
 				041FB5D4237BB85A003DA108 /* NotificationTableViewCell.m in Sources */,
 				875FFF5324356DA500F3DE30 /* ManageRentCarViewController.m in Sources */,
 				04171B672334192F009B7191 /* RoomAmenitiesViewController.m in Sources */,
+				871C7E6F24AA54800018C212 /* AddCleanImageCollectionViewCell.m in Sources */,
 				045645D9230AB065000389E5 /* InformationViewController.m in Sources */,
 				04FEAEAC22F3AA6500EE2F01 /* ThirdHomeTableViewCell.m in Sources */,
 				87399B05240F986400FFCD4F /* NewReportTableViewCell.m in Sources */,
@@ -1181,6 +1237,7 @@
 				0407F0CF23048853006DFDB5 /* ListMyRoomViewController.m in Sources */,
 				041FB5D9237BB8A1003DA108 /* DetailNewsViewController.m in Sources */,
 				87D753842115C06300A26F93 /* VariableStatic.m in Sources */,
+				871C7E7624AA691C0018C212 /* AddImageViewController.m in Sources */,
 				04081AE1230B945D00C1D905 /* ThongKeSection.m in Sources */,
 				0463A67923615A7A00CE6A1E /* AdminListBookingCleanRoomViewController.m in Sources */,
 				0411C0DE2305B7FC00BD9E5B /* ThongKeTableViewCell.m in Sources */,
@@ -1191,18 +1248,22 @@
 				0463A67C23615A9300CE6A1E /* AdminCalendarBookingRoomViewController.m in Sources */,
 				0411C0DB2305B7EA00BD9E5B /* ThongKeViewController.m in Sources */,
 				041FB5C8237BB287003DA108 /* BaseTabbarViewController.m in Sources */,
+				87334E8C24A6C7A300323A71 /* ImageCleanHomeViewController.m in Sources */,
 				87D753822115C06300A26F93 /* BaseViewController.m in Sources */,
+				871C7E6924AA54670018C212 /* AddCleanImageViewController.m in Sources */,
 				8778D22A2426A11500D2689D /* RentCarViewController.m in Sources */,
 				878B3F0B2437B5B30072FC3F /* HistoryPaymentRentCarViewController.m in Sources */,
 				04747CF0233D337B004A436E /* BookingSelectDayCollectionViewCell.m in Sources */,
 				04FB0B4F2361A1FE009B168C /* AdminListBookingTableViewCell.m in Sources */,
 				045EDA742362EB120043B2F4 /* AdminListBookingCleanRoomTableViewCell.m in Sources */,
+				87334E8F24A7208200323A71 /* ImageCleanTableViewCell.m in Sources */,
 				0403CB822344516A009A27AA /* CDatePickerViewEx.m in Sources */,
 				04E5596F23F1C51F0021C07F /* ManageQLDonDepViewController.m in Sources */,
 				0412134623366FF3007510F2 /* BookingSelectDateViewController.m in Sources */,
 				87D753872115C06300A26F93 /* CallAPI.m in Sources */,
 				04AD7BB822FE7B14004D8127 /* HomeDetailViewController.m in Sources */,
 				041FB5D5237BB85A003DA108 /* NotificationViewController.m in Sources */,
+				87334E9224A7209300323A71 /* ImageCleanCollectionViewCell.m in Sources */,
 				0403CB7F23445088009A27AA /* TextFieldChoseMonth.m in Sources */,
 				87ADDEC0245DCEBF0018F1A7 /* ListBookCarPostpayTableViewCell.m in Sources */,
 				04FEAEA522F3AA1D00EE2F01 /* SecondHomeTableViewCell.m in Sources */,
@@ -1241,6 +1302,7 @@
 				0407F0C723047DE4006DFDB5 /* ListBookRoomTableViewCell.m in Sources */,
 				0406BC9D231675DA007894E9 /* RoomInforViewController.m in Sources */,
 				04D171FC23064723007E0D3D /* ListImagesDetailViewController.m in Sources */,
+				871C7E6C24AA54740018C212 /* AddCleanImageTableViewCell.m in Sources */,
 				0455A97D23614D5F004FDB6C /* AdminManageBookingViewController.m in Sources */,
 				87399AF9240F5F8700FFCD4F /* ManageMyHomeViewController.m in Sources */,
 				04171B6423341922009B7191 /* RoomAmenitiesTableViewCell.m in Sources */,
@@ -1388,18 +1450,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MyHome/MyHome.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = R96383QYM4;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LTJE85X97W;
 				INFOPLIST_FILE = MyHome/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9;
+				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hucubi.vn.MyHome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1410,18 +1474,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MyHome/MyHome.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = R96383QYM4;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LTJE85X97W;
 				INFOPLIST_FILE = MyHome/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9;
+				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hucubi.vn.MyHome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

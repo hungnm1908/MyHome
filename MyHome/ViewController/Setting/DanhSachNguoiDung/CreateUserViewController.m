@@ -94,7 +94,10 @@
     if ([VariableStatic sharedInstance].arrayUserType.count > 0) {
         [self selectUserType];
     }else{
-        [CallAPI callApiService:@"get_type" dictParam:@{@"USERNAME":[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName]} isGetError:NO viewController:self completeBlock:^(NSDictionary *dictData) {
+        NSString *user = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName];
+        NSDictionary *param = @{@"USERNAME":user ? user : @""};
+        
+        [CallAPI callApiService:@"get_type" dictParam:param isGetError:NO viewController:self completeBlock:^(NSDictionary *dictData) {
             [VariableStatic sharedInstance].arrayUserType = dictData[@"INFO"];
             
             [self selectUserType];

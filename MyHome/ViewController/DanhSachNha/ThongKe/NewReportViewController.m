@@ -107,7 +107,7 @@
         if (compare == 0) {
             compareValue = @"";
             imageName = @"icon_equal";
-            color = [UIColor yellowColor];
+            color = RGB_COLOR(255, 165, 0);
         }else if (compare < 0) {
             compareValue = [NSString stringWithFormat:@"%lld",compare*(-1)];
             imageName = @"arrow_down";
@@ -142,7 +142,7 @@
         if (compare == 0) {
             compareValue = @"";
             imageName = @"icon_equal";
-            color = [UIColor yellowColor];
+            color = RGB_COLOR(255, 165, 0);
         }else if (compare < 0) {
             compareValue = [NSString stringWithFormat:@"%lld",compare*(-1)];
             imageName = @"arrow_down";
@@ -180,7 +180,7 @@
     if ([notif.name isEqualToString:@"kMyHome"]) {
         NSDictionary *dictHome = notif.object;
         if (dictHome.allKeys.count != 0) {
-            self.labelHome.text = dictHome[@"NAME"];
+            self.labelHome.text = [NSString stringWithFormat:@"%@",dictHome[@"NAME"]];
             [self getNumberBookDay:dictHome[@"GENLINK"]];
         }
     }

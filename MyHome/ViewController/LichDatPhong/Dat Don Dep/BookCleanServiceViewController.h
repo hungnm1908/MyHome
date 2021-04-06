@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITextField *textFieldQuantity;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldDateTime;
 @property (weak, nonatomic) IBOutlet UITextView *textViewNote;
+@property (weak, nonatomic) IBOutlet UIView *viewNote;
 
 @end
 

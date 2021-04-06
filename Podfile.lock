@@ -1,0 +1,88 @@
+PODS:
+  - AAChartKit (4.0.0)
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
+    - AFNetworking/NSURLSession
+  - CCDropDownMenus (0.1.2)
+  - CircleProgressBar (0.32)
+  - CKCalendar (1.0.0)
+  - ELCImagePickerController (0.2.0)
+  - InfinitePagingView (0.0.1)
+  - ionicons (2.1.1)
+  - IQKeyboardManager (6.5.5)
+  - JVFloatLabeledTextField (1.2.2)
+  - MARKRangeSlider (1.1.1)
+  - RateView (1.2)
+  - SDWebImage (5.8.0):
+    - SDWebImage/Core (= 5.8.0)
+  - SDWebImage/Core (5.8.0)
+  - SVProgressHUD (2.2.5)
+  - UIBarButtonItem-Badge-Coding (0.0.1)
+
+DEPENDENCIES:
+  - AAChartKit
+  - AFNetworking
+  - CCDropDownMenus
+  - CircleProgressBar
+  - CKCalendar
+  - ELCImagePickerController
+  - InfinitePagingView
+  - ionicons
+  - IQKeyboardManager
+  - JVFloatLabeledTextField
+  - MARKRangeSlider
+  - RateView
+  - SDWebImage
+  - SVProgressHUD
+  - UIBarButtonItem-Badge-Coding
+
+SPEC REPOS:
+  trunk:
+    - AAChartKit
+    - AFNetworking
+    - CCDropDownMenus
+    - CircleProgressBar
+    - CKCalendar
+    - ELCImagePickerController
+    - InfinitePagingView
+    - ionicons
+    - IQKeyboardManager
+    - JVFloatLabeledTextField
+    - MARKRangeSlider
+    - RateView
+    - SDWebImage
+    - SVProgressHUD
+    - UIBarButtonItem-Badge-Coding
+
+SPEC CHECKSUMS:
+  AAChartKit: a62caf524117fcf19e7c8b4f10acbf58dcb08359
+  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
+  CCDropDownMenus: ee65b63286a16354907fdde49c40c1817f463470
+  CircleProgressBar: 3920079be5224b62b3d9ed6eeb23ac01c835b681
+  CKCalendar: 1aebf76524bd4c4442e0002f989cd377fcdaf5e2
+  ELCImagePickerController: b1b7084434a7d49f2cfc916bde1f3ba353d38de9
+  InfinitePagingView: 2d9876c6171274b59d7128c0fcacb4ab492313f2
+  ionicons: 630bcd2c2970741c3359e3a35ad544e71d3c086b
+  IQKeyboardManager: 3a8b9e603f8b0eeaf5f096a1f2b2cfcf121992ef
+  JVFloatLabeledTextField: df48598472ee015701d509f43e59492a0d4ca208
+  MARKRangeSlider: ef7e1fe84d22996f47fd72dcb8de50b9410aac47
+  RateView: d4d12e9bb76dc23a77a56f4e5c5fb530a3f3f998
+  SDWebImage: 84000f962cbfa70c07f19d2234cbfcf5d779b5dc
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  UIBarButtonItem-Badge-Coding: 3f8e96f75f7d7c7516c1a1706b566892bf2db134
+
+PODFILE CHECKSUM: c6439e3c5bf695379c696e64c1a19cf20dfb794f
+
+COCOAPODS: 1.9.1

@@ -109,12 +109,10 @@
 }
 
 - (IBAction)selectIdToaNha:(id)sender {
-    if (arrayIdToaNha) {
-        CommonTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CommonTableViewController"];
-        vc.arrayItem = arrayIdToaNha;
-        vc.typeView = kBuilding;
-        vc.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:vc animated:YES completion:nil];
+    if ([Utils lenghtText:self.textFieldTP.text] == 0) {
+        [Utils alertError:@"Thông báo" content:@"Bạn chưa chọn Tỉnh/Thành phố" viewController:nil completion:^{
+            [self selectTP:nil];
+        }];
     }else{
         [self getListToaNha];
     }
@@ -410,13 +408,18 @@
 #pragma mark CallAPI
 
 - (void)getListToaNha {
-    NSDictionary *param = @{@"USERNAME" : [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName]
+    NSDictionary *param = @{@"USERNAME" : [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName],
+                            @"PROVINCE_ID":[NSString stringWithFormat:@"%@",dictTP[@"MATP"]],
     };
     
     [CallAPI callApiService:@"room/get_location" dictParam:param isGetError:NO viewController:self completeBlock:^(NSDictionary *dictData) {
         self->arrayIdToaNha = dictData[@"INFO"];
         
-        [self selectIdToaNha:nil];
+        CommonTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CommonTableViewController"];
+        vc.arrayItem = self->arrayIdToaNha;
+        vc.typeView = kBuilding;
+        vc.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:vc animated:YES completion:nil];
     }];
 }
 

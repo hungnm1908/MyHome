@@ -28,6 +28,29 @@
     if (isLogin) {
         [Utils checkAppVersion];
         [[self appDelegate] registerForRemoteNotifications];
+        
+        NSString *user = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultUserName];
+        NSString *pass = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultPassword];
+        if (user && pass) {
+            NSDictionary *param = @{@"USERNAME":user,
+                                    @"PASSWORD":pass
+            };
+            [CallAPI callApiService:@"user/login" dictParam:param isGetError:YES viewController:nil completeBlock:^(NSDictionary *dictData) {
+                if ([dictData[@"ERROR"]  isEqual:@"0000"]) {
+                    [[NSUserDefaults standardUserDefaults] setObject:[Utils converDictRemoveNullValue:dictData] forKey:kUserDefaultUserInfo];
+                    [[NSUserDefaults standardUserDefaults] setObject:param[@"USERNAME"] forKey:kUserDefaultUserName];
+                    [[NSUserDefaults standardUserDefaults] setObject:param[@"PASSWORD"] forKey:kUserDefaultPassword];
+                    [[NSUserDefaults standardUserDefaults] setObject:dictData[@"TOKEN"] forKey:kUserDefaultToken];
+                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserDefaultIsLogin];
+                }else{
+                    [Utils alertError:@"Thông báo" content:@"Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại." viewController:nil completion:^{
+                        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+                        [[self appDelegate].window setRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"]];
+                        [[self appDelegate].window makeKeyAndVisible];
+                    }];
+                }
+            }];
+        }
     }
     
     [Utils checkUpdate];
@@ -128,7 +151,8 @@
                                      @"ImageUnSelect":@"icon_search"
         };
         
-        UINavigationController *vcLogin = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"LoginViewController"]];
+        UIStoryboard *storyboardLogin = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        UINavigationController *vcLogin = [[UINavigationController alloc] initWithRootViewController:[storyboardLogin instantiateViewControllerWithIdentifier:@"LoginViewController"]];
         
         NSDictionary *dictLogin = @{@"NavigationController":vcLogin,
                                     @"Title":@"Đăng nhập",

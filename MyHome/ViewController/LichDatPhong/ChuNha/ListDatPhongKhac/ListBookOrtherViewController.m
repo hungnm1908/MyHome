@@ -134,6 +134,7 @@
         cell.viewThanhToan.hidden = YES;
         cell.heightViewThanhToan.constant = 0;
     }
+    cell.labelContent.text = [NSString stringWithFormat:@"%@ ",dict[@"CONTENT"]];
     
     [cell.btnThanhToan addTarget:self action:@selector(payBookingRoom:) forControlEvents:UIControlEventTouchUpInside];
     
